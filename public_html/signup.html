@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link id="css" rel="stylesheet" type="text/css" href="./homepage.css">
+    <link id="css" rel="stylesheet" type="text/css" href="./signUp.css">
     <script src="./script.js"></script>
     <title>Title</title>
 </head>
 
 <body>
+    <h1>Create a new account</h1>
     <div>
-        <h1>Login</h1>
-
         <label for="username">Username:</label>
         <input id="username" type="text" name="username" placeholder="Username">
     </div>
@@ -20,9 +19,9 @@
         <input id="password" type="password" name="password" placeholder="Password">
     </div>
 
-    <button type="button" onclick="login()">Login</button>
-
-    <p>Don't have an account?</p>
-    <a href="./signup.html">Sign up here!</a>
+    <button type="button" id="newAccount" onclick="createAccount()">Create Account</button>
+    <p id="status"></p>
+    <br>
+    <button type="button" onclick="goToLogin()">Go Back</button>
 </body>
 </html>
