@@ -7,6 +7,15 @@ label {
     font-size: 20px;
 }
 
+p {
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+a {
+    font-size: 20px;
+}
+
 input {
     height: 20px;
     font-size: 18px;
@@ -18,8 +27,21 @@ div {
 }
 
 button {
-    height: 30px;
+    height: 24px;
     width: 80px;
-    font-size: 20px;
+    font-size: 16px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#login {
+    display: inline-block;
+    margin-bottom: 4%;
+}
+
+#status {
+    display: inline-block;
+    font-size: 20px;
+    color: rgb(70, 180, 70);
+    margin-top: 0px;
+    margin-bottom: 0px;
 }

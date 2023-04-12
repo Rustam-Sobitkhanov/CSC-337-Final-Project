@@ -3,11 +3,23 @@ const app = express();
 const mongoose = require("mongoose");
 const connectionString = "mongodb://127.0.0.1:27017/app";
 const cookieParser = require("cookie-parser");
+const crypto = require("crypto");
 const port = 80;
-
+ 
 app.use(express.static("public_html"));
 app.use(express.json());
 app.use(cookieParser());
+
+var sessions = {};
+
+function clearSessions() {
+    for (i in sessions) { //clear any sessions that have existed for 3+ hours
+        if (sessions[i].start + (60000 * 180) < Date.now()) {
+            delete sessions[i];
+        }
+    }
+}
+setInterval(clearSessions, 0);
 
 mongoose.connect(connectionString)
 .then( () => {
@@ -17,7 +29,7 @@ mongoose.connect(connectionString)
     console.log("An error occurred while connecting to the database: " + err);
 })
 
-const User = new mongoose.model("user", new mongoose.Schema(
+const User = new mongoose.model("user", new mongoose.Schema( //user schema, will definitely add to this more as needed
     {
         username: String,
         salt: Number,
@@ -25,19 +37,63 @@ const User = new mongoose.model("user", new mongoose.Schema(
     }
 ));
 
-app.post("/createAccount/:username/:password", (req, res) => {
-    let u = req.params.username;
-    let p = req.params.password;
+app.post("/createAccount", (req, res) => {
+    let u = req.body.username;
+    let p = req.body.password;
     User.findOne( {username: u} )
     .then( (response) => {
-        console.log(response);
-        res.send("Username already taken!");
+        if (response != null) {
+            res.send("Username already taken!");
+        }
+        else {
+            let salt = Math.floor(Math.random() * 100000); //generate salt to attach to password
+            req.body.password = crypto.createHash("sha3-256").update(p + salt, "utf-8").digest("hex"); //hash the password + salt
+            req.body.salt = salt;
+            newUser = new User(req.body);
+            newUser.save();
+            res.redirect("http://" + req.hostname);
+        }
     })
 })
 
-app.get("/login/:username/:password", (req, res) => {
-    let u = req.params.username;
-    let p = req.params.username;
+function addSession(user) {
+    let sessionId = Math.floor(Math.random() * 100000);
+    sessions[user] = {"id": sessionId, "start": Date.now()};
+    console.log("Added session!");
+    return sessionId;
+}
+
+function hasSession(username, sessionId) {
+    if (!(username in sessions)) {
+        return false;
+    }
+    return sessions[username].id == sessionId;
+}
+
+function refreshSession() {  //refresh session
+
+}
+
+app.post("/login", (req, res) => {
+    let u = req.body.username;
+    let p = req.body.password;
+    User.findOne( {username: u} )
+    .then( (response) => {
+        if (response == null) {
+            res.send("Invalid login credentials!");
+        }
+        else {
+            let password = crypto.createHash("sha3-256").update(p + response.salt, "utf-8").digest("hex");
+            if (response.password == password) {
+                let sid = addSession(u);
+                res.cookie("login", {sessionId: sid, username: u}, {maxAge: 60000 * 120}); //max age of any cookie is currently 2 hours, could be more or less. can also refresh session everytime user interacts with the page
+                res.redirect("http://" + req.hostname + "/home.html"); //redirect to the mainpage called home.html or whatever we want to call it will add this later
+            }
+            else {
+                res.send("Invalid login credentials");
+            }
+        }
+    })
 })
 
 app.listen(port, () => {
