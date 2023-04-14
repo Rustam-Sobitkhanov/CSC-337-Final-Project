@@ -9,6 +9,14 @@ const port = 80;
 app.use(express.static("public_html"));
 app.use(express.json());
 app.use(cookieParser());
+app.use("*", (req, res, next) => { //refreshes the user's session everytime they interact with the webpage
+    if (req.cookies.login) {
+        if (hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
+            addOrRefreshSession(req.cookies.login.username);
+        }
+    }
+    next();
+})
 
 var sessions = {};
 
@@ -20,6 +28,7 @@ function clearSessions() {
     }
 }
 setInterval(clearSessions, 0);
+setInterval( () => {console.log(sessions);}, 5000);
 
 mongoose.connect(connectionString)
 .then( () => {
@@ -56,22 +65,26 @@ app.post("/createAccount", (req, res) => {
     })
 })
 
-function addSession(user) {
+function addOrRefreshSession(user) {
     let sessionId = Math.floor(Math.random() * 100000);
-    sessions[user] = {"id": sessionId, "start": Date.now()};
-    console.log("Added session!");
+    let sessionStart = Date.now();
+
+    if (user in sessions) { //update session if the user exists
+        sessions[user].start = sessionStart;
+        console.log("Refreshed session!");
+    }
+    else {  //otherwise create a new session for the user
+        sessions[user] = {"id": sessionId, "start": sessionStart};
+        console.log("Added session!");
+    }
     return sessionId;
 }
 
 function hasSession(username, sessionId) {
-    if (!(username in sessions)) {
+    if (sessions[username] == undefined) {
         return false;
     }
     return sessions[username].id == sessionId;
-}
-
-function refreshSession() {  //refresh session
-
 }
 
 app.post("/login", (req, res) => {
@@ -85,7 +98,7 @@ app.post("/login", (req, res) => {
         else {
             let password = crypto.createHash("sha3-256").update(p + response.salt, "utf-8").digest("hex");
             if (response.password == password) {
-                let sid = addSession(u);
+                let sid = addOrRefreshSession(u);
                 res.cookie("login", {sessionId: sid, username: u}, {maxAge: 60000 * 120}); //max age of any cookie is currently 2 hours, could be more or less. can also refresh session everytime user interacts with the page
                 res.redirect("http://" + req.hostname + "/home.html"); //redirect to the mainpage called home.html or whatever we want to call it will add this later
             }
