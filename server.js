@@ -24,11 +24,11 @@ function clearSessions() {
     for (i in sessions) { //clear any sessions that have existed for 3+ hours
         if (sessions[i].start + (60000 * 180) < Date.now()) {
             delete sessions[i];
+            console.log("Session removed");
         }
     }
 }
 setInterval(clearSessions, 0);
-setInterval( () => {console.log(sessions);}, 5000);
 
 mongoose.connect(connectionString)
 .then( () => {
