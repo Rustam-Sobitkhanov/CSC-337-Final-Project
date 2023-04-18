@@ -1,8 +1,8 @@
-function login() {
+function Login() {
     document.getElementById("status").innerText = "";
     let u = document.getElementById("username").value.trim();
     let p = document.getElementById("password").value.trim();
-    
+
     if (u.trim() == "" || p.trim() == "") {
         document.getElementById("status").innerText = "Fields cannot be empty!";
     }
