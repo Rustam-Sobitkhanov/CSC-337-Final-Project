@@ -13,7 +13,6 @@ app.use(cookieParser());
 app.use("/app/*", authenticate);
 
 app.use("*", (req, res, next) => { //refreshes the user's session everytime they interact with the webpage
-    console.log("here");
     if (req.cookies.login) {
         if (hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
             addOrRefreshSession(req.cookies.login.username);
@@ -23,20 +22,18 @@ app.use("*", (req, res, next) => { //refreshes the user's session everytime they
 })
 
 function authenticate(req, res, next) {
+    console.log("authing");
     if (req.baseUrl == "/login") {
         console.log("no need to auth becasue login");
         next();
-        return;
+    }
+    else if (req.cookie == undefined || !(req.cookie.login.username in sessions || req.cookie.login.sessionId != sessions[req.cookie.login.username].id)) {
+        console.log("no session");
+        res.redirect("/");
     }
     else if (hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
         console.log("has a session!");
         next();
-        return;
-    }
-    else {
-        console.log("no fucking session");
-        res.redirect("/");
-        return;
     }
 }
 
@@ -122,18 +119,13 @@ app.post("/login", (req, res) => {
             if (response.password == password) {
                 let sid = addOrRefreshSession(u);
                 res.cookie("login", {sessionId: sid, username: u}, {maxAge: 60000 * 120}); //max age of any cookie is currently 2 hours, could be more or less. can also refresh session everytime user interacts with the page
-                res.redirect("http://" + req.hostname + "/home.html"); //redirect to the mainpage called home.html or whatever we want to call it will add this later
+                res.redirect("http://" + req.hostname + "/app/home.html"); //redirect to the mainpage called home.html or whatever we want to call it will add this later
             }
             else {
                 res.send("Invalid login credentials");
             }
         }
     })
-})
-
-app.get("/:path", (req, res) => {
-    console.log(req.url);
-    res.send("henlo");
 })
 
 app.listen(port, () => {
