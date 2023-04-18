@@ -5,11 +5,11 @@ const connectionString = "mongodb://127.0.0.1:27017/app";
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const port = 80;
- 
-app.use("/app/*", authenticate);
-app.use(express.static("public_html"));
+
 app.use(express.json());
 app.use(cookieParser());
+app.use("/app/*", authenticate);
+app.use(express.static("public_html"));
 
 app.use("*", (req, res, next) => { //refreshes the user's session everytime they interact with the webpage
     if (req.cookies.login) {
@@ -21,11 +21,12 @@ app.use("*", (req, res, next) => { //refreshes the user's session everytime they
 })
 
 function authenticate(req, res, next) {
-    if (req.cookie == undefined || !(req.cookie.login.username in sessions || req.cookie.login.sessionId != sessions[req.cookie.login.username].id)) {
+    console.log(req.cookies.login);
+    if (req.cookies.login == undefined || !(hasSession(req.cookies.login.username, req.cookies.login.sessionId))) {
         console.log("no session");
         res.redirect("/");
     }
-    else if (hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
+    else {
         console.log("has a session!");
         next();
     }
@@ -42,6 +43,7 @@ function clearSessions() {
     }
 }
 setInterval(clearSessions, 0);
+//setInterval(() => {console.log(sessions);}, 5000);
 
 mongoose.connect(connectionString)
 .then( () => {
