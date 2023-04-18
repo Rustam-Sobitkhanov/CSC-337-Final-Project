@@ -14,7 +14,7 @@ app.use(express.static("public_html"));
 app.use("*", (req, res, next) => { //refreshes the user's session everytime they interact with the webpage
     if (req.cookies.login) {
         if (hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
-            addOrRefreshSession(req.cookies.login.username);
+            addOrRefreshSession(req.cookies.login.username, req.cookies.login.sessionId);
         }
     }
     next();
@@ -42,7 +42,7 @@ function clearSessions() {
     }
 }
 setInterval(clearSessions, 0);
-//setInterval(() => {console.log(sessions);}, 5000);
+setInterval(() => {console.log(sessions);}, 5000);
 
 mongoose.connect(connectionString)
 .then( () => {
@@ -57,6 +57,8 @@ const User = new mongoose.model("user", new mongoose.Schema( //user schema, will
         username: String,
         salt: Number,
         password: String,
+        bio: String,
+        pfp: String
     }
 ));
 
@@ -79,11 +81,11 @@ app.post("/createAccount", (req, res) => {
     })
 })
 
-function addOrRefreshSession(user) {
+function addOrRefreshSession(user, sid) {
     let sessionId = Math.floor(Math.random() * 100000);
     let sessionStart = Date.now();
 
-    if (user in sessions) { //update session if the user exists
+    if (user in sessions && sessions[user] == sid) { //update session if the user exists
         sessions[user].start = sessionStart;
         console.log("Refreshed session!");
     }
@@ -112,7 +114,7 @@ app.post("/login", (req, res) => {
         else {
             let password = crypto.createHash("sha3-256").update(p + response.salt, "utf-8").digest("hex");
             if (response.password == password) {
-                let sid = addOrRefreshSession(u);
+                let sid = addOrRefreshSession(u, undefined);
                 res.cookie("login", {sessionId: sid, username: u}, {maxAge: 60000 * 120}); //max age of any cookie is currently 2 hours, could be more or less. can also refresh session everytime user interacts with the page
                 res.redirect("http://" + req.hostname + "/app/home.html"); //redirect to the mainpage called home.html or whatever we want to call it will add this later
             }
