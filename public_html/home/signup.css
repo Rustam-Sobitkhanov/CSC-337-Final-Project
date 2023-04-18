@@ -1,38 +1,101 @@
+/* signup.css */
+
 body {
-    background-color: rgb(50, 120, 240);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #262A56;
 }
 
-label {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 20px;
+#signup-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 90%;
+    max-width: 1000px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-input {
-    height: 20px;
-    font-size: 18px;
+#signup-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
 }
 
-div {
-    margin-top: 4%;
-    margin-bottom: 4%
+#signup-form h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
-button {
-    height: 26px;
-    width: 120px;
-    font-size: 14px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+#signup-form input {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    font-size: 1rem;
 }
 
-#newAccount {
+#signup-form button {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    border: none;
+    background-color: #1565c0;
+    color: #fff;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#signup-form button:hover {
+    background-color: #0d47a1;
+}
+
+#logo-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo {
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+}
+
+.signup-message {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.signup-link {
     display: inline-block;
-    margin-bottom: 4%;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #1565c0;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: background-color 0.2s ease;
 }
 
-#status {
-    display: inline-block;
-    font-size: 20px;
-    color: rgb(70, 180, 70);
-    margin-top: 0px;
-    margin-bottom: 0px;
+.signup-link:hover {
+    background-color: #0d47a1;
 }

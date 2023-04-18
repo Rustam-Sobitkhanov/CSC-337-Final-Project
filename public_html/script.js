@@ -89,7 +89,7 @@ function setProfilePic() {
     else {
         let formData = new FormData();
         formData.append("img", document.getElementById("img").files[0]);
-        fetch("/pfp"),
+        fetch(("/pfp"),
             {
                 method: "POST",
                 body: formData
