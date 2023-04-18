@@ -132,14 +132,30 @@ app.post("/logout", (req, res) => {
 })
 
 app.post("/pfp", upload.single("img"), (req, res) => {
-    User.findOneAndUpdate(
-        {username: req.cookies.login.username},
-        {$set: {pfp: req.file.filename} }
-    )
-    .catch( (err) => {
-        console.log("Error uploading profile picture: " + err);
-    })
-    res.send("Successfully set profile picture for user");
+    if (req.file == undefined) {
+        User.findOneAndUpdate(
+            {username: req.cookies.login.username},
+            {$unset: {pfp: ""} }
+        )
+        .then( (response) => {
+            res.send("Successfully removed profile picture");
+        })
+        .catch( (err) => {
+            console.log("Error removing profile picture: " + err);
+        })
+    }
+    else {
+        User.findOneAndUpdate(
+            {username: req.cookies.login.username},
+            {$set: {pfp: req.file.filename} }
+        )
+        .then( (response) => {
+            res.send("Successfully set profile picture for user");
+        })
+        .catch( (err) => {
+            console.log("Error uploading profile picture: " + err);
+        })
+    }
 })
 
 app.get("/getProfilePic", (req, res) => {

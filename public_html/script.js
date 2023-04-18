@@ -1,4 +1,4 @@
-function Login() {
+function loginUser() {
     document.getElementById("status").innerText = "";
     let u = document.getElementById("username").value.trim();
     let p = document.getElementById("password").value.trim();
@@ -84,7 +84,7 @@ function logout() {
 function setProfilePic() {
     document.getElementById("imgStatus").innerText = "";
     if (document.getElementById("img").files.length == 0) {
-        document.getElementById("imgStatus").innerText = "Cannot upload no image to server";
+        document.getElementById("imgStatus").innerText = "Cannot leave field empty";
     }
     else {
         let formData = new FormData();
@@ -97,9 +97,24 @@ function setProfilePic() {
             })
         .then( (response) => {
             document.getElementById("img").value = "";
-            setTimeout(fetchProfilePic, 100);
+            setTimeout(fetchProfilePic, 200);
         })
     }
+}
+
+function removeProfilePic() {
+    document.getElementById("img").value = "";
+    let formData = new FormData();
+    formData.append("img", document.getElementById("img").files[0]);
+    let url = "/pfp";
+    fetch(url,
+        {
+            method: "POST",
+            body: formData
+        })
+    .then( (response) => {
+        setTimeout(fetchProfilePic, 200);
+    })
 }
 
 function fetchProfilePic() { //fetch pfp from db
@@ -111,7 +126,7 @@ function fetchProfilePic() { //fetch pfp from db
     })
     .then( (response) => {
         if (response == "") {
-            document.getElementById("pfp").innerHTML += "<img src='../img/favicon.ico' alt='Your profile picture' width='450px' height='450px'>";
+            document.getElementById("pfp").innerHTML += "<img src='../img/default.png' alt='Your profile picture' width='450px' height='450px'>";
         }
         else {
             document.getElementById("pfp").innerHTML += "<img src='../img/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
