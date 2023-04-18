@@ -21,8 +21,7 @@ app.use("*", (req, res, next) => { //refreshes the user's session everytime they
 })
 
 function authenticate(req, res, next) {
-    console.log(req.cookies.login);
-    if (req.cookies.login == undefined || !(hasSession(req.cookies.login.username, req.cookies.login.sessionId))) {
+    if (req.cookies.login == undefined || !hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
         console.log("no session");
         res.redirect("/");
     }
