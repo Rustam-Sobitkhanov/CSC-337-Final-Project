@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const connectionString = "mongodb://127.0.0.1:27017/app";
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
+const multer = require("multer");
 const port = 80;
 
 app.use(express.json());
@@ -41,7 +42,7 @@ function clearSessions() {
     }
 }
 setInterval(clearSessions, 0);
-setInterval(() => {console.log(sessions);}, 5000);
+//setInterval(() => {console.log(sessions);}, 5000);
 
 mongoose.connect(connectionString)
 .then( () => {
@@ -127,6 +128,19 @@ app.post("/logout", (req, res) => {
         delete sessions[req.cookies.login.username];
     }
     res.send("Successfully logged out");
+})
+
+app.get("/getProfilePic", (req, res) => {
+    User.findOne( {username: req.cookies.login.username} )
+    .then( (response) => {
+        if (response == null) {
+            console.log("it's null");
+            res.send(undefined);
+        }
+        else {
+            res.send(response.pfp);
+        }
+    })
 })
 
 app.listen(port, () => {

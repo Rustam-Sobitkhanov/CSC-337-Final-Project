@@ -80,3 +80,32 @@ function logout() {
         })
     window.location.href = window.location.origin;
 }
+
+function setProfilePic() {
+    let formData = new FormData();
+    formData.append("img", document.getElementById("img").files[0]);
+    let url = "/pfp";
+    fetch(url,
+        {
+            method: "POST",
+            body: formData
+        })
+    fetchProfilePic();
+}
+
+function fetchProfilePic() { //fetech pfp from db
+    let url = "/getProfilePic";
+    fetch(url)
+    .then( (response) => {
+        return response.text();
+    })
+    .then( (response) => {
+        if (response == "") {
+            document.getElementById("pfp").innerHTML += "<img src='../img/favicon.ico'>";
+        }
+        else {
+            console.log(response);
+            document.getElementById("pfp").innerHTML += "<img src='../img/" + response + "'>";
+        }
+    })
+}
