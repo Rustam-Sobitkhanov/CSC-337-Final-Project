@@ -37,7 +37,6 @@ function clearSessions() {
     for (i in sessions) { //clear any sessions that have existed for 3+ hours
         if (sessions[i].start + (60000 * 180) < Date.now()) {
             delete sessions[i];
-            console.log("Session removed");
         }
     }
 }
@@ -85,13 +84,11 @@ function addOrRefreshSession(user, sid) {
     let sessionId = Math.floor(Math.random() * 100000);
     let sessionStart = Date.now();
 
-    if (user in sessions && sessions[user] == sid) { //update session if the user exists
+    if (user in sessions && sessions[user]["id"] == sid) { //update session if the user exists
         sessions[user].start = sessionStart;
-        console.log("Refreshed session!");
     }
     else {  //otherwise create a new session for the user
         sessions[user] = {"id": sessionId, "start": sessionStart};
-        console.log("Added session!");
     }
     return sessionId;
 }
@@ -123,6 +120,13 @@ app.post("/login", (req, res) => {
             }
         }
     })
+})
+
+app.post("/logout", (req, res) => {
+    if (req.cookies.login != undefined) {
+        delete sessions[req.cookies.login.username];
+    }
+    res.send("Successfully logged out");
 })
 
 app.listen(port, () => {

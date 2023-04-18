@@ -71,3 +71,12 @@ function createAccount() {
 function goToLogin() {
     window.location.href = window.location.origin;
 }
+
+function logout() {
+    let url = "/logout";
+    fetch(url, 
+        {
+            method: "POST"
+        })
+    window.location.href = window.location.origin;
+}
