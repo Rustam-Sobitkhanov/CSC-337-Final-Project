@@ -5,6 +5,7 @@ const connectionString = "mongodb://127.0.0.1:27017/app";
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const multer = require("multer");
+const upload = multer( {dest: __dirname + '/public_html/img'} );
 const port = 80;
 
 app.use(express.json());
@@ -128,6 +129,17 @@ app.post("/logout", (req, res) => {
         delete sessions[req.cookies.login.username];
     }
     res.send("Successfully logged out");
+})
+
+app.post("/pfp", upload.single("img"), (req, res) => {
+    User.findOneAndUpdate(
+        {username: req.cookies.login.username},
+        {$set: {pfp: req.file.filename} }
+    )
+    .catch( (err) => {
+        console.log("Error uploading profile picture: " + err);
+    })
+    res.send("Successfully set profile picture for user");
 })
 
 app.get("/getProfilePic", (req, res) => {

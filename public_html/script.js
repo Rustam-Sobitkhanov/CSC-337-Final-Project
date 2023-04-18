@@ -82,18 +82,28 @@ function logout() {
 }
 
 function setProfilePic() {
-    let formData = new FormData();
-    formData.append("img", document.getElementById("img").files[0]);
-    let url = "/pfp";
-    fetch(url,
-        {
-            method: "POST",
-            body: formData
+    document.getElementById("imgStatus").innerText = "";
+    if (document.getElementById("img").files.length == 0) {
+        document.getElementById("imgStatus").innerText = "Cannot upload no image to server";
+    }
+    else {
+        let formData = new FormData();
+        formData.append("img", document.getElementById("img").files[0]);
+        let url = "/pfp";
+        fetch(url,
+            {
+                method: "POST",
+                body: formData
+            })
+        .then( (response) => {
+            document.getElementById("img").value = "";
+            setTimeout(fetchProfilePic, 100);
         })
-    fetchProfilePic();
+    }
 }
 
-function fetchProfilePic() { //fetech pfp from db
+function fetchProfilePic() { //fetch pfp from db
+    document.getElementById("pfp").innerHTML = "";
     let url = "/getProfilePic";
     fetch(url)
     .then( (response) => {
@@ -101,11 +111,10 @@ function fetchProfilePic() { //fetech pfp from db
     })
     .then( (response) => {
         if (response == "") {
-            document.getElementById("pfp").innerHTML += "<img src='../img/favicon.ico'>";
+            document.getElementById("pfp").innerHTML += "<img src='../img/favicon.ico' alt='Your profile picture' width='450px' height='450px'>";
         }
         else {
-            console.log(response);
-            document.getElementById("pfp").innerHTML += "<img src='../img/" + response + "'>";
+            document.getElementById("pfp").innerHTML += "<img src='../img/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
         }
     })
 }
