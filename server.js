@@ -6,11 +6,10 @@ const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const port = 80;
  
+app.use("/app/*", authenticate);
 app.use(express.static("public_html"));
 app.use(express.json());
 app.use(cookieParser());
-
-app.use("/app/*", authenticate);
 
 app.use("*", (req, res, next) => { //refreshes the user's session everytime they interact with the webpage
     if (req.cookies.login) {
@@ -22,12 +21,7 @@ app.use("*", (req, res, next) => { //refreshes the user's session everytime they
 })
 
 function authenticate(req, res, next) {
-    console.log("authing");
-    if (req.baseUrl == "/login") {
-        console.log("no need to auth becasue login");
-        next();
-    }
-    else if (req.cookie == undefined || !(req.cookie.login.username in sessions || req.cookie.login.sessionId != sessions[req.cookie.login.username].id)) {
+    if (req.cookie == undefined || !(req.cookie.login.username in sessions || req.cookie.login.sessionId != sessions[req.cookie.login.username].id)) {
         console.log("no session");
         res.redirect("/");
     }
