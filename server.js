@@ -66,7 +66,7 @@ const User = new mongoose.model("user", new mongoose.Schema( //user schema, will
 app.post("/createAccount", (req, res) => {
     let u = req.body.username;
     let p = req.body.password;
-    User.findOne( {username: u} )
+    User.findOne({username: u})
     .then( (response) => {
         if (response != null) {
             res.send("Username already taken!");
