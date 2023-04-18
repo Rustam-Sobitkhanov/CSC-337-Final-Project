@@ -9,7 +9,11 @@ const port = 80;
 app.use(express.static("public_html"));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use("/app/*", authenticate);
+
 app.use("*", (req, res, next) => { //refreshes the user's session everytime they interact with the webpage
+    console.log("here");
     if (req.cookies.login) {
         if (hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
             addOrRefreshSession(req.cookies.login.username);
@@ -17,6 +21,24 @@ app.use("*", (req, res, next) => { //refreshes the user's session everytime they
     }
     next();
 })
+
+function authenticate(req, res, next) {
+    if (req.baseUrl == "/login") {
+        console.log("no need to auth becasue login");
+        next();
+        return;
+    }
+    else if (hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
+        console.log("has a session!");
+        next();
+        return;
+    }
+    else {
+        console.log("no fucking session");
+        res.redirect("/");
+        return;
+    }
+}
 
 var sessions = {};
 
@@ -107,6 +129,11 @@ app.post("/login", (req, res) => {
             }
         }
     })
+})
+
+app.get("/:path", (req, res) => {
+    console.log(req.url);
+    res.send("henlo");
 })
 
 app.listen(port, () => {
