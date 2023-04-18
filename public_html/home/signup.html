@@ -2,27 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link id="css" rel="stylesheet" type="text/css" href="./signUp.css">
+    <link id="css" rel="stylesheet" type="text/css" href="./signup.css">
     <script src="../script.js"></script>
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
-    <title>Title</title>
+    <title>Create a new account</title>
 </head>
 
 <body>
-    <h1>Create a new account</h1>
-    <div>
-        <label for="username">Username:</label>
+<div id="signup-container">
+    <form id="signup-form">
+        <h1>Create a new account</h1>
+
         <input id="username" type="text" name="username" placeholder="Username">
-    </div>
-
-    <div>
-        <label for="password">Password:</label>
         <input id="password" type="password" name="password" placeholder="Password">
-    </div>
 
-    <button type="button" id="newAccount" onclick="createAccount()">Create Account</button>
-    <p id="status"></p>
-    <br>
-    <button type="button" onclick="goToLogin()">Go Back</button>
+        <button type="button" id="newAccount" onclick="createAccount()">Create Account</button>
+        <p id="status"></p>
+
+        <p class="signup-message">Already have an account?</p>
+        <a href="./index.html" class="signup-link">Login here!</a>
+    </form>
+
+    <div id="logo-container">
+        <img id="logo" src="/img/logo.png" alt="Sociable logo">
+    </div>
+</div>
 </body>
 </html>

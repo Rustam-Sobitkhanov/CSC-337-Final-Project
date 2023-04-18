@@ -9,22 +9,23 @@
 </head>
 
 <body>
-    <div>
+<div id="login-container">
+    <form id="login-form">
         <h1>Login</h1>
 
-        <label for="username">Username:</label>
         <input id="username" type="text" name="username" placeholder="Username">
-    </div>
-
-    <div>
-        <label for="password">Password:</label>
         <input id="password" type="password" name="password" placeholder="Password">
+
+        <button type="button" id="login" onclick="login()">Login</button>
+        <p id="status"></p>
+
+        <p class="signup-message">Don't have an account?</p>
+        <a href="./signup.html" class="signup-link">Sign up here!</a>
+    </form>
+
+    <div id="logo-container">
+        <img id="logo" src="/img/logo.png" alt="Sociable logo">
     </div>
-
-    <button type="button" id="login" onclick="login()">Login</button>
-    <p id="status"></p>
-
-    <p>Don't have an account?</p>
-    <a href="./signup.html">Sign up here!</a>
+</div>
 </body>
 </html>
