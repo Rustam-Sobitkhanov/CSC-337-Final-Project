@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const connectionString = "mongodb://127.0.0.1:27017/app";
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const multer = require("multer");
+require('dotenv').config();
 const upload = multer( {dest: __dirname + '/public_html/img'} );
 const port = 80;
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -45,7 +46,7 @@ function clearSessions() {
 setInterval(clearSessions, 0);
 //setInterval(() => {console.log(sessions);}, 5000);
 
-mongoose.connect(connectionString)
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then( () => {
     console.log("Connected to the database!");
 })
