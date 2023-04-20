@@ -179,6 +179,7 @@ function getFriendRequests() {
 }
 
 function sendFriendRequest() {
+    document.getElementById("reqStatus").innerText = "";
     let data = {toUser: document.getElementById("toUser").value};
     let url = "/app/sendFriendRequest/";
     fetch(url,
