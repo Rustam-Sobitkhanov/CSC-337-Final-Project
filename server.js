@@ -196,16 +196,20 @@ app.get("/app/getInfo/:user", (req, res) => {
 })
 
 app.post("/app/sendFriendRequest/", (req, res) => {
-    User.findOne( {username: req.cookies.login.username} )
+    User.findOne( {username: req.body.toUser} )
     .then( (response) => {
         console.log(response);
-        let fromUser = response._id;
-        User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: fromUser}}, {new: true} )
-        .then( (response) => {
-            console.log(response);
-        })
+        if (response == null) {
+            res.send("User not found!");
+        }
+        else {
+            let fromUser = response._id;
+            User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: fromUser}}, {new: true} )
+            .then( (response) => {
+                res.send("Friend request sent!");
+            })
+        }
     })
-    res.send("Done!");
 })
 
 app.listen(port, () => {
