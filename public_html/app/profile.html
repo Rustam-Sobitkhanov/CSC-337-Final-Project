@@ -5,17 +5,20 @@
     <script src="../script.js"></script>
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <title>Your Profile</title>
+    <link rel="stylesheet" href="profile.css">
 </head>
 
 <body>
-        <p>Your profile</p>
-        <input type="file" id="img" accept="image/*" name="img">
-        <p id="imgStatus"></p>
-        <button type="button" onclick="setProfilePic()">Change profile picture</button>
-        <button type="button" onclick="removeProfilePic()">Remove profile picture</button>
-        <p>Your current profile picture:</p> <!--border-radius: 50% in css for rounded pfp if we want-->
-        <div id="pfp"></div>
-        <button type="button" onclick="goHome()">Return home</button>
+    <div id="header">
+        <div class="headerChild" id="logoName">Sociable</div>
+        <div class="headerChild" id="p1">UserName</div>
+    </div>
+    <div id="pfp"></div>
+    <input type="file" id="img" accept="image/*" name="img">
+    <p id="imgStatus"></p>
+    <button type="button" onclick="setProfilePic()">Change profile picture</button>
+    <button type="button" onclick="removeProfilePic()">Remove profile picture</button>
+    <button type="button" onclick="goHome()">Return home</button>
     <script>
         fetchProfilePic();
     </script>
