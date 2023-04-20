@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../script.js"></script>
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <title>Friends List</title>
+</head>
+
+<body>
+        <p>Your friends list</p>
+        <span id="allFriends""></span>
+        <input type="text" placeholder="Username" id="toUser">
+        <button type="button" onclick="sendFriendRequest()">Send friend request</button>
+        <span id="friendRequests">
+            <p>Incoming friend requests from:</p>
+            <br>
+        </span>
+        <button type="button" onclick="goHome()">Return home</button>
+    <script>
+        getFriendRequests();
+    </script>
+</body>
+</html>

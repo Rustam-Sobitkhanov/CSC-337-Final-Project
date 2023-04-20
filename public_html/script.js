@@ -89,7 +89,7 @@ function setProfilePic() {
     else {
         let formData = new FormData();
         formData.append("img", document.getElementById("img").files[0]);
-        let url = "/pfp";
+        let url = "/app/pfp";
         fetch(url,
             {
                 method: "POST",
@@ -106,7 +106,7 @@ function removeProfilePic() {
     document.getElementById("img").value = "";
     let formData = new FormData();
     formData.append("img", document.getElementById("img").files[0]);
-    let url = "/pfp";
+    let url = "/app/pfp";
     fetch(url,
         {
             method: "POST",
@@ -119,7 +119,7 @@ function removeProfilePic() {
 
 function fetchProfilePic() { //fetch pfp from db
     document.getElementById("pfp").innerHTML = "";
-    let url = "/getProfilePic";
+    let url = "/app/getProfilePic";
     fetch(url)
     .then( (response) => {
         return response.text();
@@ -132,4 +132,64 @@ function fetchProfilePic() { //fetch pfp from db
             document.getElementById("pfp").innerHTML += "<img src='../img/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
         }
     })
+}
+
+function goHome() { //return to homepage
+    window.location.href = window.location.origin + "/app/home.html";
+}
+
+function getFriends() {
+    let url = "/app/getFriends";
+    fetch(url)
+    .then( (response) => {
+        return response.json(); //return the json and get the array of friends in the next block
+    })
+    .then( (response) => {
+        for (i in response) {
+            let url = "/app/getInfo/" + response[i];
+            fetch(url)
+            .then( (response) => {
+                return response.json();
+            })
+            .then( (response) => {
+                console.log(response);
+            })
+        }
+    })
+}
+
+function getFriendRequests() {
+    let url = "/app/getFriendRequests";
+    fetch(url)
+    .then( (response) => {
+        return response.json(); //return the json and get the array of friends in the next block
+    })
+    .then( (response) => {
+        for (i in response) {
+            let url = "/app/getInfo/" + response[i];
+            fetch(url)
+            .then( (response) => {
+                return response.json();
+            })
+            .then( (response) => {
+                document.getElementById("friendRequests").innerHTML += "<span><p>" + response.username + "</p><button id='" + response._id + "' onclick='acceptRequest(this)'>Accept</button></span><br>";
+            })
+        }
+    })
+}
+
+function sendFriendRequest() {
+    let data = {toUser: document.getElementById("toUser").value};
+    let url = "/app/sendFriendRequest/";
+    fetch(url,
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        })
+}
+
+function acceptRequest(button) {
+    console.log(button.id);
+    //accept the fr for the user
 }
