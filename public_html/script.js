@@ -172,7 +172,7 @@ function getFriendRequests() {
                 return response.json();
             })
             .then( (response) => {
-                console.log("Incoming request from: " + response.username);
+                document.getElementById("friendRequests").innerHTML += "<span><p>" + response.username + "</p><button id='" + response._id + "' onclick='acceptRequest(this)'>Accept</button></span><br>";
             })
         }
     })
@@ -181,11 +181,15 @@ function getFriendRequests() {
 function sendFriendRequest() {
     let data = {toUser: document.getElementById("toUser").value};
     let url = "/app/sendFriendRequest/";
-    console.log(url);
     fetch(url,
         {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
+}
+
+function acceptRequest(button) {
+    console.log(button.id);
+    //accept the fr for the user
 }

@@ -12,7 +12,11 @@
         <span id="allFriends""></span>
         <input type="text" placeholder="Username" id="toUser">
         <button type="button" onclick="sendFriendRequest()">Send friend request</button>
-        <span id="friendRequests"></span>
+        <span id="friendRequests">
+            <p>Incoming friend requests from:</p>
+            <br>
+        </span>
+        <button type="button" onclick="goHome()">Return home</button>
     <script>
         getFriendRequests();
     </script>
