@@ -191,12 +191,18 @@ function sendFriendRequest() {
         return response.text();
     })
     .then( (response) => {
-        console.log(response);
         document.getElementById("reqStatus").innerText = response;
     })
 }
 
 function acceptRequest(button) {
-    console.log(button.id);
-    //accept the fr for the user
+    let url = "/app/acceptFriendRequest";
+    let data = {fromUser: button.id};
+    fetch(url,
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        })
+    
 }

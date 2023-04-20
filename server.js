@@ -178,7 +178,6 @@ app.get("/app/getProfilePic", (req, res) => {
     User.findOne( {username: req.cookies.login.username} )
     .then( (response) => {
         if (response == null) {
-            console.log("it's null");
             res.send(undefined);
         }
         else {
@@ -209,19 +208,35 @@ app.get("/app/getInfo/:user", (req, res) => {
 })
 
 app.post("/app/sendFriendRequest/", (req, res) => {
-    User.findOne( {username: req.body.toUser} )
+    if (req.body.toUser == req.cookies.login.username) {
+        res.send("Cannot send friend request to yourself");
+    }
+    else {
+        User.findOne( {username: req.body.toUser} )
+        .then( (response) => {
+            if (response == null) {
+                res.send("User not found!");
+            }
+            else {
+                let fromUser = response._id;
+                User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: fromUser}}, {new: true} )
+                .then( (response) => {
+                    res.send("Friend request sent!");
+                })
+            }
+        })
+    }
+})
+
+app.post("/app/acceptFriendRequest", (req, res) => {
+    User.updateOne( { username: req.cookies.login.username}, {$pull: {pendingFriends: req.body.fromUser}}, {new: true})
     .then( (response) => {
         console.log(response);
-        if (response == null) {
-            res.send("User not found!");
-        }
-        else {
-            let fromUser = response._id;
-            User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: fromUser}}, {new: true} )
-            .then( (response) => {
-                res.send("Friend request sent!");
-            })
-        }
+        User.updateOne( { username: req.cookies.login.username}, {$addToSet: {friends: req.body.fromUser}}, {new: true})
+        .then( (response) => {
+            console.log(response);
+            res.send("Accepted friend request");
+        })
     })
 })
 
