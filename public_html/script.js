@@ -158,6 +158,26 @@ function getFriends() {
     })
 }
 
+function getFriendRequests() {
+    let url = "/app/getFriendRequests";
+    fetch(url)
+    .then( (response) => {
+        return response.json(); //return the json and get the array of friends in the next block
+    })
+    .then( (response) => {
+        for (i in response) {
+            let url = "/app/getInfo/" + response[i];
+            fetch(url)
+            .then( (response) => {
+                return response.json();
+            })
+            .then( (response) => {
+                console.log("Incoming request from: " + response.username);
+            })
+        }
+    })
+}
+
 function sendFriendRequest() {
     let data = {toUser: document.getElementById("toUser").value};
     let url = "/app/sendFriendRequest/";
