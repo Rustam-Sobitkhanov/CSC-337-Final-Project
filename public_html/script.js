@@ -187,6 +187,13 @@ function sendFriendRequest() {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
+    .then( (response) => {
+        return response.text();
+    })
+    .then( (response) => {
+        console.log(response);
+        document.getElementById("reqStatus").innerText = response;
+    })
 }
 
 function acceptRequest(button) {
