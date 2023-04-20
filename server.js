@@ -41,6 +41,8 @@ function clearSessions() {
         }
     }
 }
+
+
 setInterval(clearSessions, 0);
 //setInterval(() => {console.log(sessions);}, 5000);
 
@@ -55,6 +57,8 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 const User = new mongoose.model("user", new mongoose.Schema( //user schema, will definitely add to this more as needed
     {
         username: String,
+        age: Number,
+        gender: String,
         salt: Number,
         password: String,
         bio: String,
