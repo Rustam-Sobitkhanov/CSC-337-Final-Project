@@ -242,7 +242,7 @@ app.post("/app/acceptFriendRequest", (req, res) => {
         User.findOneAndUpdate( { username: req.cookies.login.username}, {$addToSet: {friends: req.body.fromUser}}, {new: true})
         .then( (response) => {
             let acceptingUser = response._id;
-            User.updateOne( { username: req.body.fromUser}, {$addToSet: {friends: acceptingUser}}, {new: true})
+            User.findOneAndUpdate( { _id: req.body.fromUser}, {$addToSet: {friends: acceptingUser}}, {new: true})
             .then( (response) => {
                 res.send("Accepted friend request");
             })
