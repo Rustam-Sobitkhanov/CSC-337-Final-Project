@@ -66,6 +66,19 @@ const User = new mongoose.model("user", new mongoose.Schema( //user schema, will
     }
 ));
 
+const Community = new mongoose.model("community", new mongoose.Schema( //user schema, will definitely add to this more as needed
+    {
+        communityName: String,
+        admin: mongoose.Schema.Types.ObjectId,
+        bio: String,
+        pfp: String,
+        pendingInvites: [mongoose.Schema.Types.ObjectId],
+        members: [mongoose.Schema.Types.ObjectId],
+        posts: [mongoose.Schema.Types.ObjectId]
+    }
+));
+
+
 app.post("/createAccount", (req, res) => {
     let u = req.body.username;
     let p = req.body.password;
