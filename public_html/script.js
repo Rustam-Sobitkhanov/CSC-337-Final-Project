@@ -145,6 +145,27 @@ function getFriends() {
         return response.json(); //return the json and get the array of friends in the next block
     })
     .then( (response) => {
-        console.log(response);
+        for (i in response) {
+            let url = "/app/getInfo/" + response[i];
+            fetch(url)
+            .then( (response) => {
+                return response.json();
+            })
+            .then( (response) => {
+                console.log(response);
+            })
+        }
     })
+}
+
+function sendFriendRequest() {
+    let data = {toUser: document.getElementById("toUser").value};
+    let url = "/app/sendFriendRequest/";
+    console.log(url);
+    fetch(url,
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        })
 }

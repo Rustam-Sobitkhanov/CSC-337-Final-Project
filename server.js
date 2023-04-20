@@ -180,6 +180,26 @@ app.get("/app/getFriends", (req, res) => {
     })
 })
 
+app.get("/app/getInfo/:user", (req, res) => {
+    User.findOne( {username: req.params.user} )
+    .then( (response) => {
+        res.send(response);
+    })
+})
+
+app.post("/app/sendFriendRequest/", (req, res) => {
+    User.findOne( {username: req.cookies.login.username} )
+    .then( (response) => {
+        console.log(response);
+        let fromUser = response._id;
+        User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: fromUser}}, {new: true} )
+        .then( (response) => {
+            console.log(response);
+        })
+    })
+    res.send("Done!");
+})
+
 app.listen(port, () => {
     console.log("Server is up and running!");
 })
