@@ -24,11 +24,9 @@ app.use("*", (req, res, next) => { //refreshes the user's session everytime they
 
 function authenticate(req, res, next) {
     if (req.cookies.login == undefined || !hasSession(req.cookies.login.username, req.cookies.login.sessionId)) {
-        console.log("no session");
         res.redirect("/");
     }
     else {
-        console.log("has a session!");
         next();
     }
 }
@@ -59,7 +57,10 @@ const User = new mongoose.model("user", new mongoose.Schema( //user schema, will
         salt: Number,
         password: String,
         bio: String,
-        pfp: String
+        pfp: String,
+        friends: [mongoose.Schema.Types.ObjectId],
+        pendingFriends: [mongoose.Schema.Types.ObjectId],
+        communities: [mongoose.Schema.Types.ObjectId]
     }
 ));
 
@@ -131,7 +132,7 @@ app.post("/logout", (req, res) => {
     res.send("Successfully logged out");
 })
 
-app.post("/pfp", upload.single("img"), (req, res) => {
+app.post("/app/pfp", upload.single("img"), (req, res) => {
     if (req.file == undefined) {
         User.findOneAndUpdate(
             {username: req.cookies.login.username},
@@ -158,7 +159,7 @@ app.post("/pfp", upload.single("img"), (req, res) => {
     }
 })
 
-app.get("/getProfilePic", (req, res) => {
+app.get("/app/getProfilePic", (req, res) => {
     User.findOne( {username: req.cookies.login.username} )
     .then( (response) => {
         if (response == null) {
@@ -168,6 +169,13 @@ app.get("/getProfilePic", (req, res) => {
         else {
             res.send(response.pfp);
         }
+    })
+})
+
+app.get("/app/getFriends", (req, res) => {
+    User.findOne( {username: req.cookies.login.username} )
+    .then( (response) => {
+        res.send(response.friends);
     })
 })
 

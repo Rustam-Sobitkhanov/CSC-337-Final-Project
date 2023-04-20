@@ -89,7 +89,7 @@ function setProfilePic() {
     else {
         let formData = new FormData();
         formData.append("img", document.getElementById("img").files[0]);
-        let url = "/pfp";
+        let url = "/app/pfp";
         fetch(url,
             {
                 method: "POST",
@@ -106,7 +106,7 @@ function removeProfilePic() {
     document.getElementById("img").value = "";
     let formData = new FormData();
     formData.append("img", document.getElementById("img").files[0]);
-    let url = "/pfp";
+    let url = "/app/pfp";
     fetch(url,
         {
             method: "POST",
@@ -119,7 +119,7 @@ function removeProfilePic() {
 
 function fetchProfilePic() { //fetch pfp from db
     document.getElementById("pfp").innerHTML = "";
-    let url = "/getProfilePic";
+    let url = "/app/getProfilePic";
     fetch(url)
     .then( (response) => {
         return response.text();
@@ -131,5 +131,20 @@ function fetchProfilePic() { //fetch pfp from db
         else {
             document.getElementById("pfp").innerHTML += "<img src='../img/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
         }
+    })
+}
+
+function goHome() { //return to homepage
+    window.location.href = window.location.origin + "/app/home.html";
+}
+
+function getFriends() {
+    let url = "/app/getFriends";
+    fetch(url)
+    .then( (response) => {
+        return response.json(); //return the json and get the array of friends in the next block
+    })
+    .then( (response) => {
+        console.log(response);
     })
 }
