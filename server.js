@@ -61,7 +61,8 @@ const User = new mongoose.model("user", new mongoose.Schema( //user schema, will
         pfp: String,
         friends: [mongoose.Schema.Types.ObjectId],
         pendingFriends: [mongoose.Schema.Types.ObjectId],
-        communities: [mongoose.Schema.Types.ObjectId]
+        communities: [mongoose.Schema.Types.ObjectId],
+        posts: [mongoose.Schema.Types.ObjectId]
     }
 ));
 
@@ -190,7 +191,6 @@ app.get("/app/getFriendRequests", (req, res) => {
 app.get("/app/getInfo/:user", (req, res) => {
     User.findOne( {_id: req.params.user} )
     .then( (response) => {
-        console.log(response);
         res.send(response);
     })
 })
