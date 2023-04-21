@@ -239,7 +239,6 @@ app.post("/app/sendFriendRequest/", (req, res) => {
                         else {
                             User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: sentFrom}}, {new: true} )
                             .then( (response) => {
-                                console.log(response);
                                 res.send("Friend request sent to user: " + req.body.toUser);
                             })
                         }
