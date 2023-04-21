@@ -224,7 +224,7 @@ app.post("/app/sendFriendRequest/", (req, res) => {
             else {
                 User.findOne( {username: req.cookies.login.username} )
                 .then( (response) => {
-                    var fromUser = response._id
+                    var fromUser = response._id //dont allow sending to someone that's already af riend
                     User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: fromUser}}, {new: true} )
                     .then( (response) => {
                         res.send("Friend request sent!");
