@@ -224,13 +224,27 @@ app.post("/app/sendFriendRequest/", (req, res) => {
             else {
                 User.findOne( {username: req.cookies.login.username} )
                 .then( (response) => {
-                    var fromUser = response._id //dont allow sending to someone that's already af riend
-                    User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: fromUser}}, {new: true} )
+                    let sentFrom = response._id;
+                    User.find( {_id: {$in: response.friends}} )
                     .then( (response) => {
-                        res.send("Friend request sent!");
+                        let found = false;
+                        for (i in response) {
+                            if (response[i].username == req.body.toUser) {
+                                found = true;
+                            }
+                        }
+                        if (found) {
+                            res.send("User is already your friend");
+                        }
+                        else {
+                            User.findOneAndUpdate( {username: req.body.toUser}, {$addToSet: {pendingFriends: sentFrom}}, {new: true} )
+                            .then( (response) => {
+                                console.log(response);
+                                res.send("Friend request sent to user: " + req.body.toUser);
+                            })
+                        }
                     })
                 })
-                
             }
         })
     }
