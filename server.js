@@ -57,12 +57,12 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 const User = new mongoose.model("user", new mongoose.Schema( //user schema, will definitely add to this more as needed
     {
         username: String,
-        age: Number,
-        gender: String,
         salt: Number,
         password: String,
-        bio: String,
+        age: Number,
+        gender: String,
         pfp: String,
+        bio: String,
         friends: [mongoose.Schema.Types.ObjectId],
         pendingFriends: [mongoose.Schema.Types.ObjectId],
         communities: [mongoose.Schema.Types.ObjectId],
@@ -70,17 +70,24 @@ const User = new mongoose.model("user", new mongoose.Schema( //user schema, will
     }
 ));
 
-const Community = new mongoose.model("community", new mongoose.Schema( //user schema, will definitely add to this more as needed
+const Post = new mongoose.model("post", new mongoose.Schema(
     {
-        communityName: String,
-        admin: mongoose.Schema.Types.ObjectId,
-        bio: String,
-        pfp: String,
-        pendingInvites: [mongoose.Schema.Types.ObjectId],
-        members: [mongoose.Schema.Types.ObjectId],
-        posts: [mongoose.Schema.Types.ObjectId]
+        from: mongoose.Schema.Types.ObjectId,
+        date: Number,
+        picture: String,
+        content: String,
+        comments: [mongoose.Schema.Types.ObjectId]
     }
 ));
+
+const Comment = new mongoose.model("comment", new mongoose.Schema(
+    {
+        from: mongoose.Schema.Types.ObjectId,
+        post: mongoose.Schema.Types.ObjectId,
+        date: Number,
+        content: String
+    }
+))
 
 
 app.post("/createAccount", (req, res) => {

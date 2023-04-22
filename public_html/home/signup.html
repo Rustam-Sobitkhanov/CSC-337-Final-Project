@@ -12,15 +12,25 @@
 <div id="signup-container">
     <form id="signup-form">
         <h1>Create a new account</h1>
+        <div>
+            <input id="username" type="text" name="username" placeholder="Username">
+            <input id="password" type="password" name="password" placeholder="Password">
+            <input id="age" type="number" step="1" placeholder="Age">
+            
+            <span id="genderSelect">
+                <label for="gender">Gender: </label>
+                <select id="gender" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </span>
 
-        <input id="username" type="text" name="username" placeholder="Username">
-        <input id="password" type="password" name="password" placeholder="Password">
-
-        <button type="button" id="newAccount" onclick="createAccount()">Create Account</button>
-        <p id="status"></p>
-
-        <p class="signup-message">Already have an account?</p>
-        <a href="./index.html" class="signup-link">Login here!</a>
+            <p id="status"></p>
+            <button type="button" id="newAccount" onclick="createAccount()">Create Account</button>
+            <p class="signup-message">Already have an account?</p>
+            <a href="./index.html" class="signup-link">Login here!</a>
+        </div>
     </form>
 
     <div id="logo-container">

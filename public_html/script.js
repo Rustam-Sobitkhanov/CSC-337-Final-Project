@@ -37,14 +37,16 @@ function createAccount() {
     document.getElementById("status").innerText = "";
     let u = document.getElementById("username").value.trim();
     let p = document.getElementById("password").value.trim();
-    if (u.trim() == "" || p.trim() == "") {
+    let a = document.getElementById("age").value;
+    let g = document.getElementById("gender").value;
+    if (u.trim() == "" || p.trim() == "" || a == "") {
         document.getElementById("status").innerText = "Fields cannot be empty!";
     }
     else if (u.split(" ").length > 1) {
         document.getElementById("status").innerText = "Username cannot have a space in it!";   
     }
     else {
-        let data = {username: u, password: p};
+        let data = {username: u, password: p, age: a, gender: g};
         let url = "/createAccount";
         fetch(url, 
             {
@@ -70,6 +72,10 @@ function createAccount() {
 
 function goToLogin() {
     window.location.href = window.location.origin;
+}
+
+function greetUser() {
+    document.getElementById("greeting").innerText += " " + decodeURI(document.cookie.split("username")[1]).split('"')[2];
 }
 
 function logout() {
