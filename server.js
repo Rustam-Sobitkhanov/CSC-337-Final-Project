@@ -270,6 +270,21 @@ app.post("/app/acceptFriendRequest", (req, res) => {
     })
 })
 
+app.get("/app/search/:type/:query", (req, res) => {
+    if (req.params.type == "user") {
+        User.find( {username: {$regex: req.params.query}} )
+        .then( (response) => {
+            res.send(response);
+        })
+    }
+    else {
+        Post.find( {content: {$regex: req.params.query}} )
+        .then( (response) => {
+            res.send(response);
+        })
+    }
+})
+
 app.listen(port, () => {
     console.log("Server is up and running!");
 })

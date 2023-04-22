@@ -213,3 +213,33 @@ function acceptRequest(button) {
         })
     window.location.reload();
 }
+
+function search() {
+    if (document.getElementById("query").value.trim() == "") {
+        alert("Please input something in the search field");
+        return;
+    }
+    if (!(document.getElementById("user").checked || document.getElementById("post").checked)) {
+        alert("Please select a search option");
+        return;
+    }
+    let url = "/app/search/";
+    if (document.getElementById("user").checked) {
+        url += "user/";
+    }
+    else {
+        url += "post/";
+    }
+    url += document.getElementById("query").value;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        let users = [];
+        for (i in response) {
+            users.push(response[i].username);
+        }
+        console.log(users);
+    })
+}
