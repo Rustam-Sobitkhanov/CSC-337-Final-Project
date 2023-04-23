@@ -135,7 +135,7 @@ function fetchProfilePic() { //fetch pfp from db
             document.getElementById("pfp").innerHTML += "<img src='../img/default.png' alt='Your profile picture' width='450px' height='450px'>";
         }
         else {
-            document.getElementById("pfp").innerHTML += "<img src='../img/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
+            document.getElementById("pfp").innerHTML += "<img src='../img/pfp/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
         }
     })
 }
@@ -236,10 +236,35 @@ function search() {
         return response.json();
     })
     .then( (response) => {
+        //the json that is returned from the line can be iterated over for its content to display on page because im only console logging it rn
         let users = [];
         for (i in response) {
             users.push(response[i].username);
         }
         console.log(users);
+    })
+}
+
+function checkEmptyPostContent() {
+    if (document.getElementById("postContent").value.trim() == "") {
+        document.getElementById("submitButton").innerHTML = '<button type="button" disabled="disabled">Post</button>';
+    }
+    else {
+        document.getElementById("submitButton").innerHTML = '<button type="button" onclick="post()">Post</button>';
+    }
+}
+
+function post() {
+    let formData = new FormData();
+    formData.append("content", document.getElementById("postContent").value);
+    formData.append("picture", document.getElementById("img").files[0]);
+    let url = "/app/post/";
+    fetch(url,
+        {
+            method: "POST",
+            body: formData
+        })
+    .then( (response) => {
+
     })
 }

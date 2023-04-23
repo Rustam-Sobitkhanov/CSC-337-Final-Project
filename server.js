@@ -5,7 +5,8 @@ const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const multer = require("multer");
 require('dotenv').config();
-const upload = multer( {dest: __dirname + '/public_html/img'} );
+const pfp = multer( {dest: __dirname + '/public_html/img/pfp'} );
+const posts = multer( {dest: __dirname + '/public_html/img/posts'} );
 const port = 80;
 
 
@@ -158,7 +159,7 @@ app.post("/logout", (req, res) => {
     res.send("Successfully logged out");
 })
 
-app.post("/app/pfp", upload.single("img"), (req, res) => {
+app.post("/app/pfp", pfp.single("img"), (req, res) => {
     if (req.file == undefined) {
         User.findOneAndUpdate(
             {username: req.cookies.login.username},
@@ -283,6 +284,13 @@ app.get("/app/search/:type/:query", (req, res) => {
             res.send(response);
         })
     }
+})
+
+app.post("/app/post", posts.single("picture"), (req, res) => {
+    console.log(req.body);
+    console.log(req.body.content);
+    console.log(req.file);
+    res.send("henlo");
 })
 
 app.listen(port, () => {
