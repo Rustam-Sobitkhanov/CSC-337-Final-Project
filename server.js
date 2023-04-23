@@ -287,10 +287,40 @@ app.get("/app/search/:type/:query", (req, res) => {
 })
 
 app.post("/app/post", posts.single("picture"), (req, res) => {
-    console.log(req.body);
-    console.log(req.body.content);
-    console.log(req.file);
-    res.send("henlo");
+    User.findOne( {username: req.cookies.login.username} )
+    .then( (response) => {
+        let user = response._id;
+        if (req.file != undefined) {
+            newPost = new Post(
+                {
+                    from: response._id,
+                    date: Date.now(),
+                    picture: req.file.filename,
+                    content: req.body.content
+                }
+            )
+        }
+        else {
+            newPost = new Post(
+                {
+                    from: response._id,
+                    date: Date.now(),
+                    content: req.body.content
+                }
+            )
+        }
+        newPost.save()
+        .then( (response) => {
+            User.updateOne( {_id: user}, {$addToSet: {posts: response._id}}, {new: true})
+            .then( (response) => {
+                res.send("Created new post!");
+            })
+        })
+    })
+    .catch( (err) => {
+        console.log("Error finding user to post: " + err);
+        res.send(err);
+    })
 })
 
 app.listen(port, () => {

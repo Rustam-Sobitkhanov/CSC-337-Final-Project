@@ -265,6 +265,10 @@ function post() {
             body: formData
         })
     .then( (response) => {
-
+        return response.text();
+    })
+    .then( (response) => {
+        alert(response);
+        window.location.href = window.location.origin + "/app/home.html";
     })
 }
