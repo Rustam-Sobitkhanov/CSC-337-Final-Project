@@ -236,12 +236,20 @@ function search() {
         return response.json();
     })
     .then( (response) => {
-        //the json that is returned from the line can be iterated over for its content to display on page because im only console logging it rn
-        let users = [];
-        for (i in response) {
-            users.push(response[i].username);
+        let results = [];
+        if (document.getElementById("user").checked) {
+            for (i in response) {
+                results.push(response[i].username);
+            }
         }
-        console.log(users);
+        else {
+            let posts = [];
+            for (i in response) {
+                results.push(response[i].content);
+            }
+        }
+        //display search results on the page
+        console.log(results);
     })
 }
 
