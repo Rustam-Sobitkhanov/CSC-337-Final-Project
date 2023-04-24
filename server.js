@@ -73,7 +73,7 @@ const User = new mongoose.model("user", new mongoose.Schema( //user schema, will
 
 const Post = new mongoose.model("post", new mongoose.Schema(
     {
-        from: mongoose.Schema.Types.ObjectId,
+        from: String,
         date: Number,
         picture: String,
         content: String,
@@ -294,7 +294,7 @@ app.post("/app/post", posts.single("picture"), (req, res) => {
         if (req.file != undefined) {
             newPost = new Post(
                 {
-                    from: response._id,
+                    from: response.username,
                     date: Date.now(),
                     picture: req.file.filename,
                     content: req.body.content
@@ -304,7 +304,7 @@ app.post("/app/post", posts.single("picture"), (req, res) => {
         else {
             newPost = new Post(
                 {
-                    from: response._id,
+                    from: response.username,
                     date: Date.now(),
                     content: req.body.content
                 }

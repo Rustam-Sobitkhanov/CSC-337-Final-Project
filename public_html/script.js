@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 function loginUser() {
     document.getElementById("status").innerText = "";
     let u = document.getElementById("username").value.trim();
@@ -225,7 +227,6 @@ function search() {
         return response.json();
     })
     .then( (response) => {
-        console.log(response);
         if (response.length == 0) {
             document.getElementById("searchResults").innerHTML = "<h3>No results were returned</h3>";
             return;
@@ -239,11 +240,14 @@ function search() {
         else {
             let posts = [];
             for (i in response) {
-                results.push(response[i].content);
+                if (response[i].picture != undefined) {
+                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><img src='../img/posts/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><p>" + response[i].from + "</p><p>" + response[i].content + "</p></div>";
+                }
+                else {
+                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><p>" + response[i].from + "</p><p>" + response[i].content + "</p></div>";
+                }
             }
         }
-
-        console.log(results);
     })
 }
 
