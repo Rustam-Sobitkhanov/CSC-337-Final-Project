@@ -8,11 +8,13 @@
 </head>
 
 <body>
-    <input type="text" id="query">
-    <button onclick="search()">Search</button>
-    <input type="radio" id="user" name="searchType" value="user">
+    <input type="text" id="query" oninput="checkEmptySearchQuery()">
+    <span id="submitButton">
+    <button onclick="search()" disabled="disabled">Search</button>
+    </span>
+    <input type="radio" id="user" name="searchType" value="user" onclick="checkEmptySearchQuery()">
     <label for="user">Users</label>
-    <input type="radio" id="post" name="searchType" value="post">
+    <input type="radio" id="post" name="searchType" value="post" onclick="checkEmptySearchQuery()">
     <label for="post">Posts</label>
     <br>
     <div id="searchResults"></div>

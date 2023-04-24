@@ -211,14 +211,7 @@ function acceptRequest(button) {
 }
 
 function search() {
-    if (document.getElementById("query").value.trim() == "") {
-        alert("Please input something in the search field");
-        return;
-    }
-    if (!(document.getElementById("user").checked || document.getElementById("post").checked)) {
-        alert("Please select a search option");
-        return;
-    }
+    document.getElementById("searchResults").innerHTML = "";
     let url = "/app/search/";
     if (document.getElementById("user").checked) {
         url += "user/";
@@ -233,10 +226,14 @@ function search() {
     })
     .then( (response) => {
         console.log(response);
+        if (response.length == 0) {
+            document.getElementById("searchResults").innerHTML = "<h3>No results were returned</h3>";
+            return;
+        }
         let results = [];
         if (document.getElementById("user").checked) {
             for (i in response) {
-                document.getElementById("searchResults").innerHTML += "<div><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture width='200px' height='200px'>" + response[i].username + "</div>";
+                document.getElementById("searchResults").innerHTML += "<div><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture' width='50px' height='50px'><p>" +response[i].username + "</p></div>";
             }
         }
         else {
@@ -248,6 +245,15 @@ function search() {
 
         console.log(results);
     })
+}
+
+function checkEmptySearchQuery() {
+    if (document.getElementById("query").value.trim() != "" && (document.getElementById("user").checked || document.getElementById("post").checked)) {
+        document.getElementById("submitButton").innerHTML = '<button type="button" onclick="search()">Search</button>';
+    }
+    else {
+        document.getElementById("submitButton").innerHTML = '<button type="button" disabled="disabled">Search</button>';
+    }
 }
 
 function checkEmptyPostContent() {
