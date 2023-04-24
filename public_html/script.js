@@ -131,12 +131,7 @@ function fetchProfilePic() { //fetch pfp from db
         return response.text();
     })
     .then( (response) => {
-        if (response == "") {
-            document.getElementById("pfp").innerHTML += "<img src='../img/default.png' alt='Your profile picture' width='450px' height='450px'>";
-        }
-        else {
-            document.getElementById("pfp").innerHTML += "<img src='../img/pfp/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
-        }
+        document.getElementById("pfp").innerHTML += "<img src='../img/pfp/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
     })
 }
 
@@ -144,6 +139,7 @@ function goHome() { //return to homepage
     window.location.href = window.location.origin + "/app/home.html";
 }
 
+//need to incorporate this function somewhere to get user's friends
 function getFriends() {
     let url = "/app/getFriends";
     fetch(url)
@@ -236,10 +232,11 @@ function search() {
         return response.json();
     })
     .then( (response) => {
+        console.log(response);
         let results = [];
         if (document.getElementById("user").checked) {
             for (i in response) {
-                results.push(response[i].username);
+                document.getElementById("searchResults").innerHTML += "<div><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture width='200px' height='200px'>" + response[i].username + "</div>";
             }
         }
         else {
@@ -248,7 +245,7 @@ function search() {
                 results.push(response[i].content);
             }
         }
-        //display search results on the page
+
         console.log(results);
     })
 }

@@ -104,6 +104,7 @@ app.post("/createAccount", (req, res) => {
             req.body.password = crypto.createHash("sha3-256").update(p + salt, "utf-8").digest("hex"); //hash the password + salt
             req.body.salt = salt;
             newUser = new User(req.body);
+            newUser.pfp = "default.png";
             newUser.save();
             res.redirect("http://" + req.hostname);
         }
@@ -163,7 +164,7 @@ app.post("/app/pfp", pfp.single("img"), (req, res) => {
     if (req.file == undefined) {
         User.findOneAndUpdate(
             {username: req.cookies.login.username},
-            {$unset: {pfp: ""} }
+            {$set: {pfp: "default.png"} }
         )
         .then( (response) => {
             res.send("Successfully removed profile picture");
