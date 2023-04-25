@@ -4,22 +4,34 @@
     <meta charset="UTF-8">
     <script src="../script.js"></script>
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="./friends.css">
     <title>Friends List</title>
 </head>
 
 <body>
-        <p>Your friends list</p>
+        <h1>Your friends list</h1>
         <span id="allFriends""></span>
+        <h4>Send a friend request to a new user!</h4>
         <input type="text" placeholder="Username" id="toUser">
         <button type="button" onclick="sendFriendRequest()">Send friend request</button>
         <span id="reqStatus"></span>
-        <span id="friendRequests">
-            <p>Incoming friend requests from:</p>
-            <br>
-        </span>
+        <table>
+            <tbody>
+                <tr>
+                    <td id="friends">
+                        <h3 class="msg">Your friends:</h3>
+                    </td>
+                    <td>
+                        <div id="friendRequests">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <button type="button" onclick="goHome()">Back</button>
     <script>
         getFriendRequests();
+        getFriends();
     </script>
 </body>
 </html>

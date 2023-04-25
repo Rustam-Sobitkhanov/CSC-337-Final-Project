@@ -259,14 +259,17 @@ app.post("/app/sendFriendRequest/", (req, res) => {
 })
 
 app.post("/app/acceptFriendRequest", (req, res) => {
-    User.updateOne( { username: req.cookies.login.username}, {$pull: {pendingFriends: req.body.fromUser}}, {new: true})
+    User.updateOne( { username: req.cookies.login.username}, {$pull: {pendingFriends: req.body.fromUser}}, {new: true} )
     .then( (response) => {
         User.findOneAndUpdate( { username: req.cookies.login.username}, {$addToSet: {friends: req.body.fromUser}}, {new: true})
         .then( (response) => {
             let acceptingUser = response._id;
-            User.findOneAndUpdate( { _id: req.body.fromUser}, {$addToSet: {friends: acceptingUser}}, {new: true})
+            User.findOneAndUpdate( { _id: req.body.fromUser}, {$addToSet: {friends: acceptingUser}}, {new: true} )
             .then( (response) => {
-                res.send("Accepted friend request");
+                User.findOneAndUpdate( { _id: req.body.fromUser}, {$pull: {pendingFriends: acceptingUser}}, {new: true} )
+                .then( (response) => {
+                    res.send("Accepted friend request");
+                })
             })
         })
     })

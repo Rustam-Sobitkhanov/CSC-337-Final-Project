@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 function loginUser() {
     document.getElementById("status").innerText = "";
     let u = document.getElementById("username").value.trim();
@@ -141,7 +139,6 @@ function goHome() { //return to homepage
     window.location.href = window.location.origin + "/app/home.html";
 }
 
-//need to incorporate this function somewhere to get user's friends
 function getFriends() {
     let url = "/app/getFriends";
     fetch(url)
@@ -156,7 +153,7 @@ function getFriends() {
                 return response.json();
             })
             .then( (response) => {
-                console.log(response);
+                document.getElementById("friends").innerHTML += "<div' class='user'><img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px'><p class='username'>" +response.username + "</p></div>";
             })
         }
     })
@@ -169,15 +166,21 @@ function getFriendRequests() {
         return response.json(); //return the json and get the array of friends in the next block
     })
     .then( (response) => {
-        for (i in response) {
-            let url = "/app/getInfo/" + response[i];
-            fetch(url)
-            .then( (response) => {
-                return response.json();
-            })
-            .then( (response) => {
-                document.getElementById("friendRequests").innerHTML += "<span><p>" + response.username + "</p><button id='" + response._id + "' onclick='acceptRequest(this)'>Accept</button></span><br>";
-            })
+        if (response.length == 0) {
+            document.getElementById("friendRequests").innerHTML = "<h3 class='msg'>No new friend requests at this time!</h3>";
+        }
+        else {
+            document.getElementById("friendRequests").innerHTML = "<h3 class='msg'>Incoming friend requests from:</h3>";
+            for (i in response) {
+                let url = "/app/getInfo/" + response[i];
+                fetch(url)
+                .then( (response) => {
+                    return response.json();
+                })
+                .then( (response) => {
+                    document.getElementById("friendRequests").innerHTML += "<div' class='user'><img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px'><p class='username'>" +response.username + "</p><button class='accept' id='" + response._id + "' onclick='acceptRequest(this)'>Accept</button></div><br>";
+                })
+            }
         }
     })
 }
