@@ -212,7 +212,7 @@ function acceptRequest(button) {
     window.location.reload();
 }
 
-function search() {
+function search() { //basic search for users + posts
     document.getElementById("searchResults").innerHTML = "";
     let url = "/app/search/";
     if (document.getElementById("user").checked) {
