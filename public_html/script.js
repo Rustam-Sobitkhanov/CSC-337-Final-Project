@@ -215,14 +215,14 @@ function acceptRequest(button) {
     window.location.reload();
 }
 
-function search() { //basic search for users + posts
+function search() { //basic search for users + communities 
     document.getElementById("searchResults").innerHTML = "";
     let url = "/app/search/";
     if (document.getElementById("user").checked) {
         url += "user/";
     }
     else {
-        url += "post/";
+        url += "community/";
     }
     url += document.getElementById("query").value;
     fetch(url)
@@ -241,7 +241,6 @@ function search() { //basic search for users + posts
             }
         }
         else {
-            let posts = [];
             for (i in response) {
                 if (response[i].picture != undefined) {
                     document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><img src='../img/posts/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><p>" + response[i].from + "</p><p>" + response[i].content + "</p></div>";
@@ -255,7 +254,7 @@ function search() { //basic search for users + posts
 }
 
 function checkEmptySearchQuery() {
-    if (document.getElementById("query").value.trim() != "" && (document.getElementById("user").checked || document.getElementById("post").checked)) {
+    if (document.getElementById("query").value.trim() != "" && (document.getElementById("user").checked || document.getElementById("community").checked)) {
         document.getElementById("submitButton").innerHTML = '<button type="button" onclick="search()">Search</button>';
     }
     else {
@@ -288,5 +287,29 @@ function post() {
     .then( (response) => {
         alert(response);
         window.location.href = window.location.origin + "/app/home.html";
+    })
+}
+
+function checkEmptyCommunityFields() {
+    if (document.getElementById("name").value == "" || document.getElementById("picture").files.length == 0) {
+        document.getElementById("submitButton").innerHTML = "<button type='button' disabled='disabled'>Create</button>";
+    }
+    else {
+        document.getElementById("submitButton").innerHTML = "<button type='button' onclick='createCommunity()'>Create</button>";
+    }
+}
+
+function createCommunity() {
+    let url = "/app/createCommunity";
+    let formData = new FormData();
+    formData.append("name", document.getElementById("name").value);
+    formData.append("picture", document.getElementById("picture").files[0]);
+    fetch(url,
+        {
+            method: "POST",
+            body: formData
+        })
+    .then( (response) => {
+        console.log(response);
     })
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../script.js"></script>
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <title>New Community</title>
+</head>
+
+<body>
+    <h1>Create a new community</h1>
+    <label for="name">Community Name:</label>
+    <input type="text" id="name" name="name" oninput="checkEmptyCommunityFields()">
+    <br>
+    <label for="picture">Community Picture:</label>
+    <input type="file" id="picture" accept="image/*" name="picture" oninput="checkEmptyCommunityFields()">
+    <br>
+    <span id="submitButton">
+        <button type="button" disabled="disabled">Create</button>
+    </span>
+    <br>
+    <button type="button" onclick="goHome()">Back</button>
+</body>
+</html>

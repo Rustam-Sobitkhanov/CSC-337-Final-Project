@@ -7,6 +7,7 @@ const multer = require("multer");
 require('dotenv').config();
 const pfp = multer( {dest: __dirname + '/public_html/img/pfp'} );
 const posts = multer( {dest: __dirname + '/public_html/img/posts'} );
+const communities = multer( {dest: __dirname + '/public_html/img/communities'} );
 const port = 80;
 
 
@@ -84,8 +85,10 @@ const Post = new mongoose.model("post", new mongoose.Schema(
 const Community = new mongoose.model("communitie", new mongoose.Schema(
     {
         owner: mongoose.Schema.Types.ObjectId,
+        name: String,
+        picture: String,
         members: [mongoose.Schema.Types.ObjectId],
-        posts: [mongoose.Schema.Types.ObjectId]
+        posts: [mongoose.Schema.Types.ObjectId],
     }
 ))
 
@@ -282,7 +285,7 @@ app.get("/app/search/:type/:query", (req, res) => {
         })
     }
     else {
-        Post.find( {content: {$regex: req.params.query}} )
+        Community.find( {name: {$regex: req.params.query}} )
         .then( (response) => {
             res.send(response);
         })
@@ -323,6 +326,25 @@ app.post("/app/post", posts.single("picture"), (req, res) => {
     .catch( (err) => {
         console.log("Error finding user to post: " + err);
         res.send(err);
+    })
+})
+
+app.post("/app/createCommunity", communities.single("picture"), (req, res) => {
+    User.findOne( { username: req.cookies.login.username} )
+    .then( (response) => {
+        let userId = response._id;
+        let newCommunity = new Community(req.body);
+        newCommunity.owner = userId;
+        newCommunity.picture = req.file.filename;
+        newCommunity.members.push(response._id);
+        newCommunity.save()
+        .then( (response) => {
+            let communityId = response._id;
+            User.updateOne( {_id: userId}, {$addToSet: {communities: communityId}}, {new: true} )
+            .then( (response) => {
+                res.send("Created Community!");
+            })
+        })
     })
 })
 
