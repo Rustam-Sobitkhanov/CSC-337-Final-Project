@@ -14,6 +14,15 @@ const port = 80;
 app.use(express.json());
 app.use(cookieParser());
 app.use("/app/*", authenticate);
+app.use("/app/community.html", (req, res, next) => {
+    if (!req.cookies.findCommunity) {
+        res.redirect("/app/search.html");
+    }
+    else {
+        next();
+    }
+})
+
 app.use(express.static("public_html"));
 
 app.use("*", (req, res, next) => { //refreshes the user's session everytime they interact with the webpage
@@ -354,6 +363,26 @@ app.post("/app/createCommunity", communities.single("picture"), (req, res) => {
         else {
             res.send("A community with this name already exists!");
         }
+    })
+})
+
+app.get("/app/getCommunity/:communityId", (req, res) => {
+    Community.findOne( {_id: req.params.communityId} )
+    .then( (response) => {
+        res.cookie("findCommunity", {community: response._id});
+        res.redirect("/app/displayCommunity/");
+    })
+})
+
+app.get("/app/displayCommunity", (req, res) => {
+    res.redirect("/app/community.html")
+})
+
+app.get("/app/findCommunity", (req, res) => {
+    Community.findOne( {_id: req.cookies.findCommunity.community} )
+    .then( (response) => {
+        console.log(response);
+        res.send(response);
     })
 })
 

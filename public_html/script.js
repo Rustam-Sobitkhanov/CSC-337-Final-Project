@@ -238,12 +238,7 @@ function search() { //search.html
         }
         else {
             for (i in response) {
-                if (response[i].picture != undefined) {
-                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black; margin-top: 10px; margin-bottom: 10px;'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><p>" + response[i].description + "</p></div>";
-                }
-                else {
-                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><p>" + response[i].description + "</p></div>";
-                }
+                document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black; margin-top: 10px; margin-bottom: 10px;'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><h3><a href='getCommunity/" + response[i]._id + "'>" + response[i].name + "</a></h3><p>" + response[i].description + "</p></div>";
             }
         }
     })
@@ -317,5 +312,17 @@ function createCommunity() { //createCommunity.html
             document.getElementById("picture").value = "";
         }
         document.getElementById("status").innerText = response;
+    })
+}
+
+function getCommunity() {
+    url = "/app/findCommunity";
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        console.log(response);
+        document.getElementsByTagName("title")[0].innerText += response.name;
     })
 }
