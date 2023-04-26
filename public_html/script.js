@@ -315,7 +315,7 @@ function createCommunity() { //createCommunity.html
     })
 }
 
-function getCommunity() {
+function getCommunity() { //community.html
     url = "/app/findCommunity";
     fetch(url)
     .then( (response) => {
