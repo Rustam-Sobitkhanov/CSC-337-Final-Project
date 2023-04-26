@@ -77,16 +77,15 @@ const Post = new mongoose.model("post", new mongoose.Schema(
         date: Number,
         picture: String,
         content: String,
-        comments: [mongoose.Schema.Types.ObjectId]
+        community: mongoose.Schema.Types.ObjectId        
     }
 ));
 
-const Comment = new mongoose.model("comment", new mongoose.Schema(
+const Community = new mongoose.model("communitie", new mongoose.Schema(
     {
-        from: mongoose.Schema.Types.ObjectId,
-        post: mongoose.Schema.Types.ObjectId,
-        date: Number,
-        content: String
+        owner: mongoose.Schema.Types.ObjectId,
+        members: [mongoose.Schema.Types.ObjectId],
+        posts: [mongoose.Schema.Types.ObjectId]
     }
 ))
 
