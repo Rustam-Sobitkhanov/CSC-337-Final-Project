@@ -331,21 +331,29 @@ app.post("/app/post", posts.single("picture"), (req, res) => {
 })
 
 app.post("/app/createCommunity", communities.single("picture"), (req, res) => {
-    User.findOne( { username: req.cookies.login.username} )
+    Community.findOne( {name: req.body.name} )
     .then( (response) => {
-        let userId = response._id;
-        let newCommunity = new Community(req.body);
-        newCommunity.owner = userId;
-        newCommunity.picture = req.file.filename;
-        newCommunity.members.push(response._id);
-        newCommunity.save()
-        .then( (response) => {
-            let communityId = response._id;
-            User.updateOne( {_id: userId}, {$addToSet: {communities: communityId}}, {new: true} )
+        if (response == undefined) {
+            User.findOne( { username: req.cookies.login.username} )
             .then( (response) => {
-                res.send("Created Community!");
+                let userId = response._id;
+                let newCommunity = new Community(req.body);
+                newCommunity.owner = userId;
+                newCommunity.picture = req.file.filename;
+                newCommunity.members.push(response._id);
+                newCommunity.save()
+                .then( (response) => {
+                    let communityId = response._id;
+                    User.updateOne( {_id: userId}, {$addToSet: {communities: communityId}}, {new: true} )
+                    .then( (response) => {
+                        res.send("Created Community!");
+                    })
+                })
             })
-        })
+        }
+        else {
+            res.send("A community with this name already exists!");
+        }
     })
 })
 

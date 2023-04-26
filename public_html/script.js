@@ -295,7 +295,7 @@ function checkEmptyCommunityFields() {
         document.getElementById("submitButton").innerHTML = "<button type='button' disabled='disabled'>Create</button>";
     }
     else {
-        document.getElementById("submitButton").innerHTML = "<button type='button' onclick='createCommunity()'>Create</button>";
+        document.getElementById("submitButton").innerHTML = "<button type='button' onclick='createCommunity()'>Create</button><p id='status'></p>";
     }
 }
 
@@ -304,12 +304,17 @@ function createCommunity() {
     let formData = new FormData();
     formData.append("name", document.getElementById("name").value);
     formData.append("picture", document.getElementById("picture").files[0]);
+    document.getElementById("status").innerText = "";
     fetch(url,
         {
             method: "POST",
             body: formData
         })
     .then( (response) => {
+        return response.text();
+    })
+    .then( (response) => {
         console.log(response);
+        document.getElementById("status").innerText = response;
     })
 }
