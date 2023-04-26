@@ -1,0 +1,21 @@
+label {
+    vertical-align: top;
+}
+
+#picture {
+    margin-left: 29px;
+}
+
+#name {
+    margin-left: 37px;
+}
+
+.input {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -86,6 +86,7 @@ const Community = new mongoose.model("communitie", new mongoose.Schema(
     {
         owner: mongoose.Schema.Types.ObjectId,
         name: String,
+        description: String,
         picture: String,
         members: [mongoose.Schema.Types.ObjectId],
         posts: [mongoose.Schema.Types.ObjectId],

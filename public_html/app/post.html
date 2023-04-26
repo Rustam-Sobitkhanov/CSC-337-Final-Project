@@ -5,18 +5,23 @@
     <script src="../script.js"></script>
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <title>New Post</title>
+    <link rel="stylesheet" type="text/css" href="./post.css">
 </head>
 
 <body>
     <h1>Create a new post</h1>
-    <textarea id="postContent" placeholder="Write something" oninput="checkEmptyPostContent()""></textarea>
-    <br>
-    <input type="file" id="img" accept="image/*" name="img">
-    <br>
-    <span id="submitButton">
+    <div class="input">
+        <label for="postContent">Say something</label>
+        <textarea id="postContent" oninput="checkEmptyPostContent()" rows="4" cols="30" name="postContent"></textarea>
+    </div>
+    
+    <div class="input">
+        <label for="img">Attach a file:</label>
+        <input type="file" id="img" accept="image/*" name="img">
+    </div>
+    <div id="submitButton">
     <button type="button" disabled="disabled">Post</button>
-    </span>
-    <br>
+    </div>
     <button type="button" onclick="goHome()">Back</button>
 </body>
 </html>

@@ -243,10 +243,10 @@ function search() { //basic search for users + communities
         else {
             for (i in response) {
                 if (response[i].picture != undefined) {
-                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><img src='../img/posts/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><p>" + response[i].from + "</p><p>" + response[i].content + "</p></div>";
+                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><p>" + response[i].description + "</p></div>";
                 }
                 else {
-                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><p>" + response[i].from + "</p><p>" + response[i].content + "</p></div>";
+                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><p>" + response[i].description + "</p></div>";
                 }
             }
         }
@@ -291,7 +291,7 @@ function post() {
 }
 
 function checkEmptyCommunityFields() {
-    if (document.getElementById("name").value == "" || document.getElementById("picture").files.length == 0) {
+    if (document.getElementById("name").value.trim() == "" || document.getElementById("picture").files.length == 0 || document.getElementById("desc").value.trim() == "") {
         document.getElementById("submitButton").innerHTML = "<button type='button' disabled='disabled'>Create</button>";
     }
     else {

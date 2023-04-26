@@ -1,0 +1,21 @@
+.input {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+label {
+    vertical-align: top;
+}
+
+#img {
+    margin-left: 11px;
+}
+
+button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

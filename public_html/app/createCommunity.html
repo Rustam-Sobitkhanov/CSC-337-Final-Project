@@ -4,21 +4,31 @@
     <meta charset="UTF-8">
     <script src="../script.js"></script>
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="./createCommunity.css">
     <title>New Community</title>
 </head>
 
 <body>
     <h1>Create a new community</h1>
-    <label for="name">Community Name:</label>
-    <input type="text" id="name" name="name" oninput="checkEmptyCommunityFields()">
-    <br>
-    <label for="picture">Community Picture:</label>
+    
+    <div class="input">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" oninput="checkEmptyCommunityFields()">
+    </div>
+    
+    <div class="input">
+    <label for="desc">Description:</label>
+    <textarea type="text" id="desc" name="desc" oninput="checkEmptyCommunityFields()"></textarea>
+    </div>
+    
+    <div class="input">
+    <label for="picture">Picture:</label>
     <input type="file" id="picture" accept="image/*" name="picture" oninput="checkEmptyCommunityFields()">
-    <br>
-    <span id="submitButton">
+    </div>
+    
+    <div id="submitButton">
         <button type="button" disabled="disabled">Create</button>
-    </span>
-    <br>
+    </div>
     <button type="button" onclick="goHome()">Back</button>
 </body>
 </html>
