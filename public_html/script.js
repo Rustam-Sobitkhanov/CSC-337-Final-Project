@@ -1,4 +1,4 @@
-function loginUser() {
+function loginUser() { //index.html
     document.getElementById("status").innerText = "";
     let u = document.getElementById("username").value.trim();
     let p = document.getElementById("password").value.trim();
@@ -33,7 +33,7 @@ function loginUser() {
     }
 }
 
-function createAccount() {
+function createAccount() { //signup.html
     document.getElementById("status").innerText = "";
     let u = document.getElementById("username").value.trim();
     let p = document.getElementById("password").value.trim();
@@ -70,15 +70,11 @@ function createAccount() {
     }
 }
 
-function goToLogin() {
-    window.location.href = window.location.origin;
-}
-
-function greetUser() {
+function greetUser() { //home.html
     document.getElementById("greeting").innerText += " " + decodeURI(document.cookie.split("username")[1]).split('"')[2];
 }
 
-function logout() {
+function logout() { //home.html
     let url = "/logout";
     fetch(url, 
         {
@@ -87,7 +83,7 @@ function logout() {
     window.location.href = window.location.origin;
 }
 
-function setProfilePic() {
+function setProfilePic() { //profile.html
     document.getElementById("imgStatus").innerText = "";
     if (document.getElementById("img").files.length == 0) {
         document.getElementById("imgStatus").innerText = "Cannot leave field empty";
@@ -108,7 +104,7 @@ function setProfilePic() {
     }
 }
 
-function removeProfilePic() {
+function removeProfilePic() { //profile.html
     document.getElementById("img").value = "";
     let formData = new FormData();
     formData.append("img", document.getElementById("img").files[0]);
@@ -123,7 +119,7 @@ function removeProfilePic() {
     })
 }
 
-function fetchProfilePic() { //fetch pfp from db
+function fetchProfilePic() { //profile.html
     document.getElementById("pfp").innerHTML = "";
     let url = "/app/getProfilePic";
     fetch(url)
@@ -135,11 +131,11 @@ function fetchProfilePic() { //fetch pfp from db
     })
 }
 
-function goHome() { //return to homepage
+function goHome() { //all html files in "app" directory
     window.location.href = window.location.origin + "/app/home.html";
 }
 
-function getFriends() {
+function getFriends() { //friends.html
     let url = "/app/getFriends";
     fetch(url)
     .then( (response) => {
@@ -159,7 +155,7 @@ function getFriends() {
     })
 }
 
-function getFriendRequests() {
+function getFriendRequests() { //friends.html
     let url = "/app/getFriendRequests";
     fetch(url)
     .then( (response) => {
@@ -185,7 +181,7 @@ function getFriendRequests() {
     })
 }
 
-function sendFriendRequest() {
+function sendFriendRequest() { //friends.html
     document.getElementById("reqStatus").innerText = "";
     let data = {toUser: document.getElementById("toUser").value};
     let url = "/app/sendFriendRequest/";
@@ -203,7 +199,7 @@ function sendFriendRequest() {
     })
 }
 
-function acceptRequest(button) {
+function acceptRequest(button) { //friends.html
     let url = "/app/acceptFriendRequest";
     let data = {fromUser: button.id};
     fetch(url,
@@ -215,7 +211,7 @@ function acceptRequest(button) {
     window.location.reload();
 }
 
-function search() { //basic search for users + communities 
+function search() { //search.html
     document.getElementById("searchResults").innerHTML = "";
     let url = "/app/search/";
     if (document.getElementById("user").checked) {
@@ -243,7 +239,7 @@ function search() { //basic search for users + communities
         else {
             for (i in response) {
                 if (response[i].picture != undefined) {
-                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><p>" + response[i].description + "</p></div>";
+                    document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black; margin-top: 10px; margin-bottom: 10px;'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><p>" + response[i].description + "</p></div>";
                 }
                 else {
                     document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black'><p>" + response[i].description + "</p></div>";
@@ -253,7 +249,7 @@ function search() { //basic search for users + communities
     })
 }
 
-function checkEmptySearchQuery() {
+function checkEmptySearchQuery() { //search.html
     if (document.getElementById("query").value.trim() != "" && (document.getElementById("user").checked || document.getElementById("community").checked)) {
         document.getElementById("submitButton").innerHTML = '<button type="button" onclick="search()">Search</button>';
     }
@@ -262,7 +258,7 @@ function checkEmptySearchQuery() {
     }
 }
 
-function checkEmptyPostContent() {
+function checkEmptyPostContent() { //post.html
     if (document.getElementById("postContent").value.trim() == "") {
         document.getElementById("submitButton").innerHTML = '<button type="button" disabled="disabled">Post</button>';
     }
@@ -271,7 +267,7 @@ function checkEmptyPostContent() {
     }
 }
 
-function post() {
+function post() { //post.html
     let formData = new FormData();
     formData.append("content", document.getElementById("postContent").value);
     formData.append("picture", document.getElementById("img").files[0]);
@@ -290,7 +286,7 @@ function post() {
     })
 }
 
-function checkEmptyCommunityFields() {
+function checkEmptyCommunityFields() { //createCommunity.html
     if (document.getElementById("name").value.trim() == "" || document.getElementById("picture").files.length == 0 || document.getElementById("desc").value.trim() == "") {
         document.getElementById("submitButton").innerHTML = "<button type='button' disabled='disabled'>Create</button>";
     }
@@ -299,10 +295,11 @@ function checkEmptyCommunityFields() {
     }
 }
 
-function createCommunity() {
+function createCommunity() { //createCommunity.html
     let url = "/app/createCommunity";
     let formData = new FormData();
     formData.append("name", document.getElementById("name").value);
+    formData.append("description", document.getElementById("desc").value);
     formData.append("picture", document.getElementById("picture").files[0]);
     document.getElementById("status").innerText = "";
     fetch(url,
@@ -314,7 +311,11 @@ function createCommunity() {
         return response.text();
     })
     .then( (response) => {
-        console.log(response);
+        if (response == "Created Community!") {
+            document.getElementById("name").value = "";
+            document.getElementById("desc").value = "";
+            document.getElementById("picture").value = "";
+        }
         document.getElementById("status").innerText = response;
     })
 }
