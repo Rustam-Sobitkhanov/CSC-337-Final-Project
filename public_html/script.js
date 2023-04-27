@@ -71,7 +71,15 @@ function createAccount() { //signup.html
 }
 
 function greetUser() { //home.html
-    document.getElementById("greeting").innerText += " " + decodeURI(document.cookie.split("username")[1]).split('"')[2];
+    let x = decodeURI(document.cookie).split("; ");
+    for (i in x) {
+        if (x[i].substring(0,5) == "login") {
+            x = x[i];
+        }
+    }
+    x = x.split("username")[1];
+    x = x.split('"')[2];
+    document.getElementById("greeting").innerText += " " + x;
 }
 
 function logout() { //home.html
@@ -338,12 +346,9 @@ function userInCommunity() {
     })
     .then( (response) => {
         if (!(response == "Already in community")) {
-            console.log("not in community");
             document.getElementsByTagName("body")[0].innerHTML += "<button onclick='joinCommunity(this)' id=" + response + ">Join</button>"
         }
-        else {
-            console.log("In community");
-        }
+        document.getElementsByTagName("body")[0].innerHTML += '<div><button onclick="goHome()">Return</button></div>';
     })
 }
 
