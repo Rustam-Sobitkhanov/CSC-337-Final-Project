@@ -11,7 +11,6 @@ const posts = multer( {dest: __dirname + '/public_html/img/posts'} );
 const communities = multer( {dest: __dirname + '/public_html/img/communities'} );
 const port = 80;
 
-
 app.use(express.json());
 app.use(cookieParser());
 app.use("/app/*", authenticate);
@@ -24,6 +23,8 @@ app.use("/app/community.html", (req, res, next) => {
     }
 })
 
+app.use("/app/community/*", express.static(__dirname + "/public_html/app/community.html"));
+app.use("/app/chat/*", express.static(__dirname + "/public_html/app/chat.html"));
 app.use(express.static("public_html"));
 
 app.use("*", (req, res, next) => { //refreshes the user's session everytime they interact with the webpage
@@ -374,37 +375,26 @@ app.post("/app/createCommunity", communities.single("picture"), (req, res) => {
     })
 })
 
-app.get("/app/getCommunity/:communityId", (req, res) => {
+app.get("/app/findCommunity/:communityId", (req, res) => {
     Community.findOne( {_id: req.params.communityId} )
-    .then( (response) => {
-        res.cookie("findCommunity", {community: response._id});
-        res.redirect("/app/displayCommunity/");
-    })
-})
-
-app.get("/app/displayCommunity", (req, res) => {
-    res.redirect("/app/community.html")
-})
-
-app.get("/app/findCommunity", (req, res) => {
-    Community.findOne( {_id: req.cookies.findCommunity.community} )
     .then( (response) => {
         res.send(response);
     })
 })
 
-app.get("/app/inCommunity", (req, res) => {
-    User.findOne( {username: req.cookies.login.username, communities: {$in: [req.cookies.findCommunity.community]}} )
+app.get("/app/inCommunity/:communityId", (req, res) => {
+    Community.findOne( {_id: req.params.communityId} )
     .then( (response) => {
-        if (response == null) {
-            Community.findOne( {_id: req.cookies.findCommunity.community} )
-            .then( (response) => {
-                res.send(response._id);
-            })
-        }
-        else {
-            res.send("Already in community");
-        }
+        let communityId = response._id;
+        User.findOne( {username: req.cookies.login.username, communities: {$in: [response._id]}} )
+        .then( (response) => {
+            if (response == null) {
+                res.send(communityId);
+            }
+            else {
+                res.send("In community");
+            }
+        })
     })
 })
 

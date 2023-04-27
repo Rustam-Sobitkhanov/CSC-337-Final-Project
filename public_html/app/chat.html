@@ -9,11 +9,14 @@
 </head>
 
 <body>
-    <h2 id="title"></h2>
-    <h4 id="desc"></h4>
+    <div id="chatHistory"></div>
+    <div id="userInput">
+        <div id="inputMessage">
+            <input type="text" id="message" name="message" placeholder="Your message"></input>
+            <button type="submit" onclick="sendMessage()">Send message</button>
+        </div>
+    </div>
     <script>
-        getCommunity();
-        userInCommunity();
     </script>
 </body>
 </html>
