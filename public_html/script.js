@@ -246,7 +246,7 @@ function search() { //search.html
         }
         else {
             for (i in response) {
-                document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black; margin-top: 10px; margin-bottom: 10px;'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><h3><a href='getCommunity/" + response[i]._id + "'>" + response[i].name + "</a></h3><p>" + response[i].description + "</p></div>";
+                document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black; margin-top: 10px; margin-bottom: 10px;'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><h3><a href='community/" + response[i]._id + "'>" + response[i].name + "</a></h3><p>" + response[i].description + "</p></div>";
             }
         }
     })
@@ -324,7 +324,9 @@ function createCommunity() { //createCommunity.html
 }
 
 function getCommunity() { //community.html
-    url = "/app/findCommunity";
+    let community = window.location.href.split("/")[5];
+    let url = "/app/findCommunity/" + community;
+    console.log(url);
     fetch(url)
     .then( (response) => {
         return response.json();
@@ -332,20 +334,21 @@ function getCommunity() { //community.html
     .then( (response) => {
         console.log(response);
         document.getElementsByTagName("title")[0].innerText += response.name;
-        document.getElementsByTagName("body")[0].innerHTML = "<img src='../img/communities/" + response.picture + "' alt='Community Picture' width='200px' height='200px'>" + document.getElementsByTagName("body")[0].innerHTML;
+        document.getElementsByTagName("body")[0].innerHTML = "<img src='../../img/communities/" + response.picture + "' alt='Community Picture' width='200px' height='200px'>" + document.getElementsByTagName("body")[0].innerHTML;
         document.getElementById("title").innerText = response.name;
         document.getElementById("desc").innerText = response.description;
     })
 }
 
 function userInCommunity() {
-    let url = "/app/inCommunity/";
+    let community = window.location.href.split("/")[5];
+    let url = "/app/inCommunity/" + community;
     fetch(url)
     .then( (response) => {
         return response.text();
     })
     .then( (response) => {
-        if (!(response == "Already in community")) {
+        if (!(response == "In community")) { //adds a join button to the community page if the user is not already a member
             document.getElementsByTagName("body")[0].innerHTML += "<button onclick='joinCommunity(this)' id=" + response + ">Join</button>"
         }
         document.getElementsByTagName("body")[0].innerHTML += '<div><button onclick="goHome()">Return</button></div>';
