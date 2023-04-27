@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const multer = require("multer");
+const { resolveSoa } = require("dns");
 require('dotenv').config();
 const pfp = multer( {dest: __dirname + '/public_html/img/pfp'} );
 const posts = multer( {dest: __dirname + '/public_html/img/posts'} );
@@ -381,9 +382,37 @@ app.get("/app/displayCommunity", (req, res) => {
 app.get("/app/findCommunity", (req, res) => {
     Community.findOne( {_id: req.cookies.findCommunity.community} )
     .then( (response) => {
-        console.log(response);
         res.send(response);
     })
+})
+
+app.get("/app/inCommunity", (req, res) => {
+    User.findOne( {username: req.cookies.login.username, communities: {$in: [req.cookies.findCommunity.community]}} )
+    .then( (response) => {
+        if (response == null) {
+            Community.findOne( {_id: req.cookies.findCommunity.community} )
+            .then( (response) => {
+                res.send(response._id);
+            })
+        }
+        else {
+            res.send("Already in community");
+        }
+    })
+})
+
+app.post("/app/joinCommunity", (req, res) => {
+    User.findOne( {username: req.cookies.login.username} )
+    .then( (response => {
+        let userId = response._id;
+        Community.findOneAndUpdate( {_id: req.body.communityId}, {$addToSet: {members: userId}} )
+        .then( (response) => {
+            User.updateOne( {username: req.cookies.login.username}, {$addToSet: {communities: response._id}}, {new: true} )
+            .then( (response) => {
+                res.send("Joined community!");
+            })
+        })
+    }))
 })
 
 app.listen(port, () => {

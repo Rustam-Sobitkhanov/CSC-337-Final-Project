@@ -324,5 +324,42 @@ function getCommunity() { //community.html
     .then( (response) => {
         console.log(response);
         document.getElementsByTagName("title")[0].innerText += response.name;
+        document.getElementsByTagName("body")[0].innerHTML = "<img src='../img/communities/" + response.picture + "' alt='Community Picture' width='200px' height='200px'>" + document.getElementsByTagName("body")[0].innerHTML;
+        document.getElementById("title").innerText = response.name;
+        document.getElementById("desc").innerText = response.description;
+    })
+}
+
+function userInCommunity() {
+    let url = "/app/inCommunity/";
+    fetch(url)
+    .then( (response) => {
+        return response.text();
+    })
+    .then( (response) => {
+        if (!(response == "Already in community")) {
+            console.log("not in community");
+            document.getElementsByTagName("body")[0].innerHTML += "<button onclick='joinCommunity(this)' id=" + response + ">Join</button>"
+        }
+        else {
+            console.log("In community");
+        }
+    })
+}
+
+function joinCommunity(button) {
+    let url = "/app/joinCommunity";
+    let data = {communityId: button.id};
+    fetch(url,
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data),
+        })
+    .then( (response) => {
+        return response.text();
+    })
+    .then( (response) => {
+        window.location.reload();
     })
 }
