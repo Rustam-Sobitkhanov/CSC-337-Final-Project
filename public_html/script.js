@@ -326,12 +326,11 @@ function createCommunity() { //createCommunity.html
 function getCommunity() { //community.html
     let community = window.location.href.split("/")[5];
     let url = "/app/findCommunity/" + community;
-    console.log(url);
     fetch(url)
     .then( (response) => {
         return response.json();
     })
-    .then( (response) => {
+    .then( (response) => { //fetch community info, console log the json object containing all its info and add it to the page
         console.log(response);
         document.getElementsByTagName("title")[0].innerText += response.name;
         document.getElementsByTagName("body")[0].innerHTML = "<img src='../../img/communities/" + response.picture + "' alt='Community Picture' width='200px' height='200px'>" + document.getElementsByTagName("body")[0].innerHTML;
@@ -369,5 +368,20 @@ function joinCommunity(button) {
     })
     .then( (response) => {
         window.location.reload();
+    })
+}
+
+function getChats() { //chat.html
+    let otherUser = window.location.href.split("/")[5];
+    let url = "/app/getChat/" + otherUser;
+    fetch(url)
+    .then( (response) => {
+        if (response.redirected == true) {
+            window.location.href = response.url;
+        }
+        return response.text();
+    })
+    .then( (response) => {
+        console.log(response);
     })
 }

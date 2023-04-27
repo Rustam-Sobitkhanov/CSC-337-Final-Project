@@ -15,12 +15,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/app/*", authenticate);
 app.use("/app/community.html", (req, res, next) => {
-    if (!req.cookies.findCommunity) {
-        res.redirect("/app/search.html");
-    }
-    else {
-        next();
-    }
+    res.redirect("/app/home.html");
+})
+app.use("/app/chat.html", (req, res, next) => {
+    res.redirect("/app/home.html");
 })
 
 app.use("/app/community/*", express.static(__dirname + "/public_html/app/community.html"));
@@ -104,6 +102,24 @@ const Community = new mongoose.model("communitie", new mongoose.Schema(
     }
 ))
 
+const Message = new mongoose.model("message", new mongoose.Schema(
+    {
+        user: mongoose.Schema.Types.ObjectId,
+        content: String,
+        picture: String
+    }
+))
+
+const Chat = new mongoose.model("chat", new mongoose.Schema(
+    {
+        users: [mongoose.Schema.Types.ObjectId],
+        chatHistory: [mongoose.Schema.Types.ObjectId]
+    }
+))
+
+app.get("/:path", (req, res) => {
+    res.redirect("/");
+})
 
 app.post("/createAccount", (req, res) => {
     let u = req.body.username;
@@ -410,6 +426,35 @@ app.post("/app/joinCommunity", (req, res) => {
             })
         })
     }))
+})
+
+app.get("/app/getChat/:otherUser", (req, res) => {
+    if (req.cookies.login.username == req.params.otherUser) {
+        res.redirect("/app/home.html");
+    }
+    else {
+        User.findOne( {username: req.cookies.login.username} )
+        .then( (response) => {
+            let user1 = response._id;
+            User.findOne( {username: req.params.otherUser} )
+            .then( (response) => {
+                let user2 = response._id;
+                Chat.findOne( {users: {$all: [user1, user2]}} )
+                .then( (response) => {
+                    if (response == null) {
+                        newChat = new Chat( {users: [user1, user2]} );
+                        newChat.save();
+                        console.log("created new chat");
+                        res.send([]);
+                    }
+                    else {
+                        console.log("found chat");
+                        res.send(response.chatHistory);
+                    }
+                })
+            })
+        })
+    }
 })
 
 app.listen(port, () => {
