@@ -226,6 +226,13 @@ app.get("/app/getFriendRequests", (req, res) => {
     })
 })
 
+app.get("/app/getPosts/", (req, res) => {
+    User.findOne( {username: req.cookies.login.username} )
+    .then( (response) => {
+        res.send(response.posts);
+    })
+})
+
 app.get("/app/getInfo/:user", (req, res) => {
     User.findOne( {_id: req.params.user} )
     .then( (response) => {
