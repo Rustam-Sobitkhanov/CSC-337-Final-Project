@@ -316,13 +316,13 @@ app.post("/app/acceptFriendRequest", (req, res) => {
 
 app.get("/app/search/:type/:query", (req, res) => {
     if (req.params.type == "user") {
-        User.find( {username: {$regex: req.params.query}} )
+        User.find( {username: {$regex: "(?i)" + req.params.query}} )
         .then( (response) => {
             res.send(response);
         })
     }
     else {
-        Community.find( {name: {$regex: req.params.query}} )
+        Community.find( {name: {$regex: "(?i)" + req.params.query}} )
         .then( (response) => {
             res.send(response);
         })
