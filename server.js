@@ -114,7 +114,8 @@ const Message = new mongoose.model("message", new mongoose.Schema(
     {
         user: String,
         content: String,
-        picture: String
+        picture: String,
+        date: Number
     }
 ))
 
@@ -465,6 +466,7 @@ app.get("/app/getChat/:otherUser", (req, res) => {
 app.post("/app/postChat/:otherUser", chats.single("picture"), (req, res) => {
     let newMessage = new Message(req.body);
     newMessage.user = req.cookies.login.username;
+    newMessage.date = Date.now();
     if (req.file != undefined) {
         newMessage.picture = req.file.filename;
     }

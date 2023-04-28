@@ -388,6 +388,7 @@ function getChats() { //chat.html
             return response.msg;
         }
         else {
+            var messages = [];
             if (numMsgs != response.length) {
                 for (let i = numMsgs; i < response.length; i++) {
                     numMsgs += 1;
@@ -397,17 +398,24 @@ function getChats() { //chat.html
                         return response.json();
                     })
                     .then( (response) => {
-                        console.log(response);
-                        if (response.user != lastUser) {
-                            document.getElementById("chatHistory").innerHTML += "<strong class='username'>" + response.user + ":</strong>";
+                        messages.push(response.date + ":" + response.user + ":" + response.content + ":" + response.picture);
+                        return messages;
+                    })
+                    .then( (response) => {
+                        if (numMsgs == response.length) {
+                            messages.sort();
+                            for (i in messages) {
+                                let msg = messages[i].split(":");
+                                if (msg[1] != lastUser) {
+                                    document.getElementById("chatHistory").innerHTML += "<strong class='username'>" + msg[1] + ":</strong>";
+                                }
+                                if (msg[3] != "undefined") {
+                                    document.getElementById("chatHistory").innerHTML += '<br><img src="../../img/chats/' + msg[3] + '" alt="picture" width="60px" height="60px">';
+                                }
+                                document.getElementById("chatHistory").innerHTML += "<p>" + msg[2] + "</p>";
+                                lastUser = msg[1];
+                            }
                         }
-                        if (response.picture != "undefined") {
-                            document.getElementById("chatHistory").innerHTML += '<br><img src="../../img/chats/' + response.picture + '" alt="picture" width="60px" height="60px">';
-                            console.log(response.picture);
-                            console.log("added pic");
-                        }
-                        document.getElementById("chatHistory").innerHTML += "<p>" + response.content + "</p>";
-                        lastUser = response.user;
                     })
                 }
             }
