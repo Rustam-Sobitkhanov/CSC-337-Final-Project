@@ -371,9 +371,10 @@ function joinCommunity(button) {
     })
 }
 
-function getChats() { //chat.html
+function getChatHistory() { //chat.html
     let otherUser = window.location.href.split("/")[5];
     let url = "/app/getChat/" + otherUser;
+    let currMsgCount = 0;
     fetch(url)
     .then( (response) => {
         if (response.redirected == true) {
@@ -389,9 +390,9 @@ function getChats() { //chat.html
         }
         else {
             var messages = [];
-            if (numMsgs != response.length) {
+            if (numMsgs != response.length) { //do something with currMsgCount variable me thinks
                 for (let i = numMsgs; i < response.length; i++) {
-                    numMsgs += 1;
+                    currMsgCount += 1;
                     let url = "/app/getMessage/" + response[i];
                     fetch(url)
                     .then( (response) => {
@@ -402,9 +403,10 @@ function getChats() { //chat.html
                         return messages;
                     })
                     .then( (response) => {
-                        if (numMsgs == response.length) {
+                        if (currMsgCount == response.length) {
                             messages.sort();
                             for (i in messages) {
+                                numMsgs += 1;
                                 let msg = messages[i].split(":");
                                 if (msg[1] != lastUser) {
                                     document.getElementById("chatHistory").innerHTML += "<strong class='username'>" + msg[1] + ":</strong>";
