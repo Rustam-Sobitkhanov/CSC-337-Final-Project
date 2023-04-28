@@ -157,7 +157,7 @@ function getFriends() { //friends.html
                 return response.json();
             })
             .then( (response) => {
-                document.getElementById("friends").innerHTML += "<div' class='user'><img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px'><p class='username'>" +response.username + "</p></div>";
+                document.getElementById("friends").innerHTML += "<div' class='user'><img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px'><p class='username'>" +response.username + "</p> <button onclick='goChat(this)' id='" + response.username + "' class='chatButton'>Chat now!</button></div>";
             })
         }
     })
@@ -385,7 +385,7 @@ function getChatHistory() { //chat.html
     .then( (response) => {
         if (response.msg == "Cannot send message to user because they are not your friend!" || response.msg == "Cannot send a chat to yourself!") {
             document.getElementById("chatHistory").innerHTML = "<h2>" + response.msg + "</h2>";
-            document.getElementById("inputMessage").innerHTML = '<button onclick="goHome()">Return</button>';
+            document.getElementById("inputMessage").innerHTML = '<button onclick="goToFriends()">Return</button>';
             return response.msg;
         }
         else {
@@ -448,6 +448,14 @@ function sendMessage() {
         document.getElementById("message").value = "";
         document.getElementById("img").value = "";        
     })
+}
+
+function goToFriends() {
+    window.location.href = window.location.origin + "/app/friends.html";
+}
+
+function goChat(button) {
+    window.location.href = window.location.origin + "/app/chat/" + button.id;
 }
 
 var numMsgs = 0;

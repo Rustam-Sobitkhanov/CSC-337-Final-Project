@@ -56,5 +56,9 @@ img {
 }
 
 .accept {
-    margin-left: 10px;
+    margin-left: 20px;
+}
+
+.chatButton {
+    margin-left: 20px;
 }
