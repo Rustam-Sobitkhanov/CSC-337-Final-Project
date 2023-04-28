@@ -379,9 +379,59 @@ function getChats() { //chat.html
         if (response.redirected == true) {
             window.location.href = response.url;
         }
-        return response.text();
+        return response.json();
     })
     .then( (response) => {
-        console.log(response);
+        if (response.msg == "Cannot send message to user because they are not your friend!" || response.msg == "Cannot send a chat to yourself!") {
+            document.getElementById("chatHistory").innerHTML = "<h2>" + response.msg + "</h2>";
+            document.getElementById("inputMessage").innerHTML = '<input type="text" id="message" name="message" placeholder="Your message"></input><span id="button"><button type="submit" disabled="disabled">Send message</button></span><div><input type="file" id="img" accept="image/*" name="img" disabled="disabled"><br><button onclick="goHome()">Return</button></div>';
+            return response.msg;
+        }
+        else {
+            if (numMsgs != response.length) {
+                for (let i = numMsgs; i < response.length; i++) {
+                    numMsgs += 1;
+                    let url = "/app/getMessage/" + response[i];
+                    fetch(url)
+                    .then( (response) => {
+                        return response.json();
+                    })
+                    .then( (response) => {
+                        console.log(response);
+                        if (response.user != lastUser) {
+                            document.getElementById("chatHistory").innerHTML += "<strong class='username'>" + response.user + ":</strong>" + "<p>" + response.content + "</p>";
+                        }
+                        else {
+                            document.getElementById("chatHistory").innerHTML += "<p>" + response.content + "</p>";
+                        }
+                        lastUser = response.user;
+                    })
+                }
+            }
+        }
     })
 }
+
+function checkEmptyMsg() {
+    if (document.getElementById("message").value.trim() == "" && document.getElementById("img").files.length == 0) {
+        document.getElementById("button").innerHTML = '<button type="submit" disabled="disabled">Send message</button>';
+    }
+    else {
+        document.getElementById("button").innerHTML = '<button type="submit" onclick="sendMessage()">Send message</button>';
+    }
+}
+
+function sendMessage() {
+    let formData = new FormData();
+    formData.append("content", document.getElementById("message").value);
+    formData.append("picture", document.getElementById("img").files[0]);
+    let url = "/app/postChat/" + window.location.href.split("/")[5];
+    fetch(url,
+        {
+            method: "POST",
+            body: formData
+        })
+}
+
+var numMsgs = 0;
+var lastUser = "";

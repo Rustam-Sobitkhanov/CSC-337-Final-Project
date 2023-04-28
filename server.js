@@ -9,6 +9,7 @@ require('dotenv').config();
 const pfp = multer( {dest: __dirname + '/public_html/img/pfp'} );
 const posts = multer( {dest: __dirname + '/public_html/img/posts'} );
 const communities = multer( {dest: __dirname + '/public_html/img/communities'} );
+const chats = multer( {dest: __dirname + '/public_html/img/chats'} )
 const port = 80;
 
 app.use(express.json());
@@ -102,18 +103,18 @@ const Community = new mongoose.model("communitie", new mongoose.Schema(
     }
 ))
 
-const Message = new mongoose.model("message", new mongoose.Schema(
-    {
-        user: mongoose.Schema.Types.ObjectId,
-        content: String,
-        picture: String
-    }
-))
-
 const Chat = new mongoose.model("chat", new mongoose.Schema(
     {
         users: [mongoose.Schema.Types.ObjectId],
         chatHistory: [mongoose.Schema.Types.ObjectId]
+    }
+))
+
+const Message = new mongoose.model("message", new mongoose.Schema(
+    {
+        user: String,
+        content: String,
+        picture: String
     }
 ))
 
@@ -430,31 +431,57 @@ app.post("/app/joinCommunity", (req, res) => {
 
 app.get("/app/getChat/:otherUser", (req, res) => {
     if (req.cookies.login.username == req.params.otherUser) {
-        res.redirect("/app/home.html");
+        res.send({msg: "Cannot send a chat to yourself!"});
     }
     else {
         User.findOne( {username: req.cookies.login.username} )
         .then( (response) => {
             let user1 = response._id;
-            User.findOne( {username: req.params.otherUser} )
+            User.findOne( {username: req.params.otherUser, friends: {$in: [user1]}} )
             .then( (response) => {
-                let user2 = response._id;
-                Chat.findOne( {users: {$all: [user1, user2]}} )
-                .then( (response) => {
-                    if (response == null) {
-                        newChat = new Chat( {users: [user1, user2]} );
-                        newChat.save();
-                        console.log("created new chat");
-                        res.send([]);
-                    }
-                    else {
-                        console.log("found chat");
-                        res.send(response.chatHistory);
-                    }
-                })
+                if (response == null) {
+                    res.send({msg: "Cannot send message to user because they are not your friend!"});
+                }
+                else {
+                    let user2 = response._id;
+                    Chat.findOne( {users: {$all: [user1, user2]}} )
+                    .then( (response) => {
+                        res.cookie("chat", {user1: user1, user2: user2}, {maxAge: 1200000});
+                        if (response == null) {
+                            newChat = new Chat( {users: [user1, user2]} );
+                            newChat.save();
+                            console.log("created new chat");
+                            res.send([]);
+                        }
+                        else {
+                            console.log("found chat");
+                            res.send(response.chatHistory);
+                        }
+                    })
+                }
             })
         })
     }
+})
+
+app.post("/app/postChat/:otherUser", chats.single("picture"), (req, res) => {
+    let newMessage = new Message(req.body);
+    newMessage.user = req.cookies.login.username;
+    newMessage.save()
+    .then( (response) => {
+        let chatId = response._id;
+        Chat.findOneAndUpdate( {users: {$all: [req.cookies.chat.user1, req.cookies.chat.user2]}}, {$addToSet: {chatHistory: chatId}}, {new: true} )
+        .then( (response) => {
+            res.send("Message saved!");
+        })
+    })
+})
+
+app.get("/app/getMessage/:msgId", (req, res) => {
+    Message.findOne( {_id: req.params.msgId} )
+    .then( (response) => {
+        res.send(response);
+    })
 })
 
 app.listen(port, () => {

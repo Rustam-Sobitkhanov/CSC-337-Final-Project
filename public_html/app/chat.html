@@ -12,12 +12,19 @@
     <div id="chatHistory"></div>
     <div id="userInput">
         <div id="inputMessage">
-            <input type="text" id="message" name="message" placeholder="Your message"></input>
-            <button type="submit" onclick="sendMessage()">Send message</button>
+            <input type="text" id="message" name="message" placeholder="Your message" oninput="checkEmptyMsg()"></input>
+            <span id="button">
+                <button type="submit" onclick="sendMessage()">Send message</button>
+            </span>
+            <div id="sendPic">
+                <input type="file" id="img" accept="image/*" name="img" oninput="checkEmptyMsg()">
+            </div>
+            <button onclick="goHome()">Return</button>
         </div>
     </div>
     <script>
-        getChats();
+        checkEmptyMsg();
+        setInterval(getChats, 1000);
     </script>
 </body>
 </html>

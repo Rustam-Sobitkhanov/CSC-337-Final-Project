@@ -11,6 +11,7 @@
 
 #inputMessage {
     margin-top: 20px;
+    height: 100%;
 }
 
 #chatHistory {
@@ -39,4 +40,8 @@ body {
     height: 100%;
     overflow-x: scroll;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#img {
+    height: 25px;
 }
