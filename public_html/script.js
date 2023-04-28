@@ -384,7 +384,7 @@ function getChats() { //chat.html
     .then( (response) => {
         if (response.msg == "Cannot send message to user because they are not your friend!" || response.msg == "Cannot send a chat to yourself!") {
             document.getElementById("chatHistory").innerHTML = "<h2>" + response.msg + "</h2>";
-            document.getElementById("inputMessage").innerHTML = '<input type="text" id="message" name="message" placeholder="Your message"></input><span id="button"><button type="submit" disabled="disabled">Send message</button></span><div><input type="file" id="img" accept="image/*" name="img" disabled="disabled"><br><button onclick="goHome()">Return</button></div>';
+            document.getElementById("inputMessage").innerHTML = '<button onclick="goHome()">Return</button>';
             return response.msg;
         }
         else {
@@ -399,11 +399,14 @@ function getChats() { //chat.html
                     .then( (response) => {
                         console.log(response);
                         if (response.user != lastUser) {
-                            document.getElementById("chatHistory").innerHTML += "<strong class='username'>" + response.user + ":</strong>" + "<p>" + response.content + "</p>";
+                            document.getElementById("chatHistory").innerHTML += "<strong class='username'>" + response.user + ":</strong>";
                         }
-                        else {
-                            document.getElementById("chatHistory").innerHTML += "<p>" + response.content + "</p>";
+                        if (response.picture != "undefined") {
+                            document.getElementById("chatHistory").innerHTML += '<br><img src="../../img/chats/' + response.picture + '" alt="picture" width="60px" height="60px">';
+                            console.log(response.picture);
+                            console.log("added pic");
                         }
+                        document.getElementById("chatHistory").innerHTML += "<p>" + response.content + "</p>";
                         lastUser = response.user;
                     })
                 }
@@ -431,6 +434,10 @@ function sendMessage() {
             method: "POST",
             body: formData
         })
+    .then( () => {
+        document.getElementById("message").value = "";
+        document.getElementById("img").value = "";        
+    })
 }
 
 var numMsgs = 0;

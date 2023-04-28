@@ -450,11 +450,9 @@ app.get("/app/getChat/:otherUser", (req, res) => {
                         if (response == null) {
                             newChat = new Chat( {users: [user1, user2]} );
                             newChat.save();
-                            console.log("created new chat");
                             res.send([]);
                         }
                         else {
-                            console.log("found chat");
                             res.send(response.chatHistory);
                         }
                     })
@@ -467,6 +465,9 @@ app.get("/app/getChat/:otherUser", (req, res) => {
 app.post("/app/postChat/:otherUser", chats.single("picture"), (req, res) => {
     let newMessage = new Message(req.body);
     newMessage.user = req.cookies.login.username;
+    if (req.file != undefined) {
+        newMessage.picture = req.file.filename;
+    }
     newMessage.save()
     .then( (response) => {
         let chatId = response._id;

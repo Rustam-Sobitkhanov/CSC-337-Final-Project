@@ -17,6 +17,7 @@
 #chatHistory {
     padding-left: 20px;
     padding-top: 20px;
+    height: 120vh;
 }
 
 button {
@@ -43,5 +44,6 @@ body {
 }
 
 #img {
-    height: 25px;
+    height: 30px;
+    padding-bottom: 0px;
 }
