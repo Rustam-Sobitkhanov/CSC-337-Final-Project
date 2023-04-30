@@ -70,7 +70,7 @@ function createAccount() { //signup.html
     }
 }
 
-function greetUser() { //home.html
+function greetUser() { //profile.html
     let x = decodeURI(document.cookie).split("; ");
     for (i in x) {
         if (x[i].substring(0,5) == "login") {
@@ -479,6 +479,26 @@ function goToFriends() {
 
 function goChat(button) {
     window.location.href = window.location.origin + "/app/chat/" + button.id;
+}
+
+function getPfpAndUsername() {
+    let x = decodeURI(document.cookie).split("; ");
+    for (i in x) {
+        if (x[i].substring(0,5) == "login") {
+            x = x[i];
+        }
+    }
+    x = x.split("username")[1];
+    x = x.split('"')[2];
+    let url = "/app/getProfile/" + x;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        document.getElementById("pfpName").innerHTML += "<img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px' class='pfp'>";
+        document.getElementById("pfpName").innerHTML += "<p class='username'>" + response.username + "</p>";
+    })
 }
 
 var numMsgs = 0;
