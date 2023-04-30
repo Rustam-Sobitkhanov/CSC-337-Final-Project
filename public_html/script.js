@@ -163,6 +163,27 @@ function getFriends() { //friends.html
     })
 }
 
+function getUserInfo() {
+    let x = decodeURI(document.cookie).split("; ");
+    for (i in x) {
+        if (x[i].substring(0,5) == "login") {
+            x = x[i];
+        }
+    }
+    x = x.split("username")[1];
+    x = x.split('"')[2];
+    let url = "/app/getProfile/" + x;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        document.getElementById("nameField").innerText += " " + response.username;
+        document.getElementById("ageField").innerText += " " + response.age;
+        document.getElementById("genderField").innerText += " " + response.gender.toUpperCase();
+    })
+}
+
 function getFriendRequests() { //friends.html
     let url = "/app/getFriendRequests";
     fetch(url)
@@ -216,7 +237,9 @@ function acceptRequest(button) { //friends.html
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
-    window.location.reload();
+    .then( (response) => {
+        window.location.reload();
+    })
 }
 
 function search() { //search.html
