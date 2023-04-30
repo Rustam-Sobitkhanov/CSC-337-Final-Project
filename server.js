@@ -252,6 +252,13 @@ app.get("/app/getPosts/", (req, res) => {
     })
 })
 
+app.get("/app/getPost/:postId", (req, res) => {
+    Post.findOne( {_id: req.params.postId} )
+    .then( (response) => {
+        res.send(response);
+    })
+})
+
 app.get("/app/getInfo/:user", (req, res) => {
     User.findOne( {_id: req.params.user} )
     .then( (response) => {

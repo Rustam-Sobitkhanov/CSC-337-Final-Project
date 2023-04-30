@@ -60,6 +60,14 @@ body {
     margin: 20px 0px 0px 20px;
 }
 
+#posts .post .postPicture {
+    margin-top: 20px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0px;
+}
+
 #pfp img {
     width: 50%;
     height: auto;
@@ -181,3 +189,29 @@ body {
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: steelblue;}
+
+.username {
+    display: inline-block;
+    position: absolute;
+    font-size: 32px;
+    color: #908E9B;
+    vertical-align: middle;
+}
+
+span {
+    text-align: left;
+    width: 100%;
+    display: inline-block;
+    padding-left: 30px;
+}
+
+.timestamp {
+    margin-bottom: 10px;
+    color: #37B9F1;
+    font-size: 14px;
+}
+
+.content {
+    font-size: 20px;
+    color: #8739F9;
+}
