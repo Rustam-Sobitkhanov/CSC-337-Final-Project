@@ -12,18 +12,47 @@
     <div id="header">
         <div class="headerChild" id="logoName">Sociable</div>
         <div class="headerChild" id="greeting"></div>
+        <img src="/img/home.png" onclick="goHome()">
     </div>
-    <div id="pfp"></div>
-    <input type="file" id="img" accept="image/*" name="img">
-    <p id="imgStatus"></p>
-    <button type="button" onclick="setProfilePic()">Change profile picture</button>
-    <button type="button" onclick="removeProfilePic()">Remove profile picture</button>
-    <br>
-    <button type="button" onclick="goHome()">Back</button>
-    <br>
-    <a href="./post.html">Create New Post</a>
-    <br>
-    <a href="./createCommunity.html" >Create New Community</a>
+    <div id="container">
+        <div id="about">
+            <div id="pfp"></div>
+            <div class="dropdown">
+                <button class="dropbtn">Change Profile Picture</button>
+                <div class="dropdown-content">
+                    <input type="file" id="img" accept="image/*" name="img">
+                    <p id="imgStatus"></p>
+                    <button type="button" onclick="setProfilePic()">Change profile picture</button>
+                    <button type="button" onclick="removeProfilePic()">Remove profile picture</button>
+                </div>
+            </div>
+            <p>
+                Name:
+            </p>
+            <p>
+                Age:
+            </p>
+            <p>
+                Gender:
+            </p>
+        </div>
+        <div id="miniHeader">
+            <button onclick="window.location.href='./post.html'">What's on your mind?</button>
+            <img src="/img/comIcon.png" onclick="window.location.href='./createCommunity.html'" title="Create communities">
+
+        </div>
+        <div id="posts">
+            <div class="post">
+                <p>nothingToSay</p>
+                <img src="/img/generic.png">
+            </div>
+            <div class="post">
+                <p>nothingToSay</p>
+                <img src="/img/generic.png">
+            </div>
+        </div>
+    </div>
+
     <script>
         fetchProfilePic();
         greetUser();
