@@ -9,6 +9,14 @@ body {
     border-radius: 25px;
 }
 
+.headerChild {
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+    font-size: 35px;
+    color: white;
+}
+
 #container {
     overflow: hidden;
     width: 100%;
@@ -26,14 +34,6 @@ body {
 
 #about p {
     margin-left: 30px;
-}
-
-.headerChild {
-    display: inline-block;
-    padding: 1rem 1rem;
-    vertical-align: middle;
-    font-size: 35px;
-    color: white;
 }
 
 #header img {
