@@ -97,3 +97,8 @@ body {
     width: 50%;
     margin-bottom: 20px;
 }
+
+.postMain img:hover {
+    -webkit-transform:scale(1.5); /* or some other value */
+    transform:scale(1.5);
+}
