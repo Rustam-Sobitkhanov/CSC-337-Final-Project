@@ -161,7 +161,7 @@ function getFriends() { //friends.html
                 return response.json();
             })
             .then( (response) => {
-                document.getElementById("friends").innerHTML += "<div' class='user'><img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px'><p class='username'>" +response.username + "</p> <button onclick='goChat(this)' id='" + response.username + "' class='chatButton'>Chat now!</button></div>";
+                document.getElementById("friends").innerHTML += "<div' class='user'><img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px'><a class='username' href='/app/user/" + response.username + "'>" + response.username + "</a>" + "<button onclick='goChat(this)' id='" + response.username + "' class='chatButton'>Chat now!</button></div>";
             })
         }
     })
@@ -207,7 +207,7 @@ function getFriendRequests() { //friends.html
                     return response.json();
                 })
                 .then( (response) => {
-                    document.getElementById("friendRequests").innerHTML += "<div' class='user'><img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px'><p class='username'>" +response.username + "</p><button class='accept' id='" + response._id + "' onclick='acceptRequest(this)'>Accept</button></div><br>";
+                    document.getElementById("friendRequests").innerHTML += "<div' class='user'><img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px'><a class='username' href='/app/user/" + response.username + "'>" + response.username + "</a><button class='accept' id='" + response._id + "' onclick='acceptRequest(this)'>Accept</button></div><br>";
                 })
             }
         }
