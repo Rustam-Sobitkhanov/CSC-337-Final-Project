@@ -21,7 +21,11 @@ app.use("/app/community.html", (req, res, next) => {
 app.use("/app/chat.html", (req, res, next) => {
     res.redirect("/app/home.html");
 })
+app.use("/app/user.html", (req, res, next) => {
+    res.redirect("/app/home.html");
+})
 
+app.use("/app/user/*", express.static(__dirname + "/public_html/app/user.html"));
 app.use("/app/community/*", express.static(__dirname + "/public_html/app/community.html"));
 app.use("/app/chat/*", express.static(__dirname + "/public_html/app/chat.html"));
 app.use(express.static("public_html"));

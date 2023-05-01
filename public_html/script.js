@@ -596,5 +596,73 @@ function getFriendPosts() {
     })
 }
 
+function getOtherUser() { //user.html
+    let user = window.location.href.split("/")[5];
+    document.getElementById("greeting").innerText += user;
+}
+
+function getOtherUserInfo() { //profile.html
+    let user = window.location.href.split("/")[5];
+    let url = "/app/getProfile/" + user;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        document.getElementById("nameField").innerText += " " + response.username;
+        document.getElementById("ageField").innerText += " " + response.age;
+        document.getElementById("genderField").innerText += " " + response.gender.toUpperCase();
+    })
+}
+
+function fetchOtherPosts() { //profile.html
+    let user = window.location.href.split("/")[5];
+    let url = "/app/getProfile/" + user;
+    let posts = document.getElementById("posts");
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        if (response.posts.length != 0) {
+            let username = response.username;
+            let pfp = response.pfp;
+            for (i in response.posts) {
+                fetch("/app/getPost/" + response.posts[i])
+                .then( (response) => {
+                    return response.json();
+                })
+                .then( (response) => {
+                    let postContent = '<span class="postUser"><img src="../../img/pfp/' + pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
+                    postContent += "<p class='username'>" + username + "</p></span>";
+                    postContent += '<p class="content">' + response.content + '</p>';
+                    if (response.picture != undefined) {
+                        postContent += '<img src="../../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
+                    }
+                    let time = new Date(response.date).toLocaleTimeString("en-US");
+                    let date = new Date(response.date).toLocaleDateString("en-US");
+                    let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
+                    posts.innerHTML += '<div class="post">' + postContent + timestamp + '</div>';
+                })
+            }
+        }
+        else {
+            posts.innerHTML += "<div class='post'><p style='margin-left: 260px;' class='content'>User has no posts!</p></div>";
+        }
+    })
+}
+
+function fetchOtherProfilePic() { //profile.html
+    let user = window.location.href.split("/")[5];
+    let url = "/app/getProfile/" + user;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        document.getElementById("pfp").innerHTML += "<img id='profilePic' src='../../img/pfp/" + response.pfp + "' alt='Your profile picture' width='450px;' height='450px'>";
+    })
+}
+
 var numMsgs = 0;
 var lastUser = "";
