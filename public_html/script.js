@@ -268,7 +268,7 @@ function search() { //search.html
         let results = [];
         if (document.getElementById("user").checked) {
             for (i in response) {
-                document.getElementById("searchResults").innerHTML += "<div><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture' width='50px' height='50px'><p>" +response[i].username + "</p></div>";
+                document.getElementById("searchResults").innerHTML += "<div><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture' width='50px' height='50px'><a href='/app/user/" + response[i].username + "'>" + response[i].username + "</a></div>";
             }
         }
         else {
