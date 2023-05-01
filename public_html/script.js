@@ -268,12 +268,12 @@ function search() { //search.html
         let results = [];
         if (document.getElementById("user").checked) {
             for (i in response) {
-                document.getElementById("searchResults").innerHTML += "<div><p>" +response[i].username + "</p><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture' width='50px' height='50px'></div>";
+                document.getElementById("searchResults").innerHTML += "<div id='userID'><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture' width='50px' height='50px'><span>" +response[i].username + "</span></div>";
             }
         }
         else {
             for (i in response) {
-                document.getElementById("searchResults").innerHTML += "<div style='border: 1px solid black; margin-top: 10px; margin-bottom: 10px;'><h3><a href='community/" + response[i]._id + "'>" + response[i].name + "</a></h3><p>" + response[i].description + "</p><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'></div>";
+                document.getElementById("searchResults").innerHTML += "<div id='containerJS'><div id='communityID'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><span><a href='community/" + response[i]._id + "'>" + response[i].name + "</a></span></div><div id='comDescription'> Description: " + response[i].description + "</div></div>";
             }
         }
     })
