@@ -11,17 +11,19 @@
 <body>
 <div id="header">
     <div class="headerChild" id="logoName">Sociable</div>
-    <div class="headerChild" id="greeting"></div>
+    <div class="headerChild title">Your friends</div>
     <img src="/img/home.png" onclick="goHome()">
 </div>
-<h1>Your friends list</h1>
-<span id="allFriends"></span>
-<h4>Send a friend request to a new user!</h4>
-<input type="text" placeholder="Username" id="toUser">
-<button type="button" onclick="sendFriendRequest()">Send friend request</button>
-<span id="reqStatus"></span>
-<table>
-    <tbody>
+<div id="content">
+    <h4>Send a friend request to a new user!</h4>
+    <input type="text" placeholder="Enter Username" id="toUser">
+    <button type="button" onclick="sendFriendRequest()">Send friend request</button>
+    <div id="reqStatus"></div>
+</div>
+
+<div id="friendList">
+    <table>
+        <tbody>
         <tr>
             <td id="friends">
                 <h3 class="msg">Your friends:</h3>
@@ -31,9 +33,10 @@
                 </div>
             </td>
         </tr>
-    </tbody>
-</table>
-<button type="button" onclick="goHome()">Back</button>
+        </tbody>
+    </table>
+</div>
+
 <script>
     getFriendRequests();
     getFriends();

@@ -496,7 +496,7 @@ function getPfpAndUsername() {
         return response.json();
     })
     .then( (response) => {
-        document.getElementById("pfpName").innerHTML += "<img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px' class='pfp'>";
+        document.getElementById("pfpName").innerHTML += "<img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='45px' height='45px' class='pfp'>";
         document.getElementById("pfpName").innerHTML += "<p class='username'>" + response.username + "</p>";
     })
 }
@@ -525,7 +525,7 @@ function fetchPosts() {
                 return response.json();
             })
             .then( (response) => {
-                let postContent = '<span class="postUser"><img src="../img/pfp/' + pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
+                let postContent = '<span class="postUser"><img src="../img/pfp/' + pfp + '" alt="Profile Picture" width="20px" height="20px" class="postPicture">';
                 postContent += "<p class='username'>" + username + "</p></span>";
                 postContent += '<p class="content">' + response.content + '</p>';
                 if (response.picture != undefined) {

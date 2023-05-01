@@ -124,6 +124,7 @@ body {
 .post p {
     margin-left: 30px;
     text-align: left;
+    color: white;
 }
 
 #posts .post {
@@ -133,7 +134,6 @@ body {
 }
 
 #posts .post img {
-    width: 50%;
     margin-bottom: 30px;
 }
 
