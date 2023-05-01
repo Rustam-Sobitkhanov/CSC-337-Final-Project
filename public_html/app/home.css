@@ -131,6 +131,10 @@ body {
     margin: 0px 0px 0px 20px;
 }
 
+#pfpName p {
+    margin-top: 10px;
+}
+
 span {
     text-align: left;
     width: 100%;
