@@ -1,0 +1,132 @@
+body {
+    margin: 0px 200px 0px 200px;
+    background-color: #262626;
+    color: white;
+}
+
+#header {
+    margin-top: 5px;
+    background-color: #262A56;
+    border-radius: 25px;
+}
+
+.headerChild {
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+    font-size: 35px;
+    color: white;
+}
+
+.title {
+    margin-left: 12%;
+}
+
+#header img {
+    display: inline-block;
+    position: absolute;
+    right: 15%;
+    width: 4%;
+    top: 10px;
+}
+
+#logoName {
+    padding: 15px;
+    margin-left: 20px;
+}
+
+#container {
+    margin: 20px;
+    border: 2px solid black;
+    border-radius: 25px;
+    color: white;
+    background-color: #2f2c2c;
+}
+
+#query {
+    margin: 20px 0px 20px 20px;
+    width: 85%;
+    height: 40px;
+    border-radius: 25px;
+    padding-left: 20px;
+    color: black;
+}
+
+#container button {
+    width: 80px;
+    color: white;
+    height: 40px;
+    border-radius: 25px;
+    background-color: #0d47a1;
+}
+
+#container button:hover {
+    background-color: white;
+    color: #0d47a1;
+    cursor: pointer;
+}
+
+#radioStuff {
+    text-align: center;
+    margin: 0px 20px 20px 20px;
+    font-size: 20px;
+}
+
+#radioStuff input {
+    margin-left: 50px;
+}
+
+#radioStuff label {
+    margin-right: 50px;
+}
+
+#searchResults h3 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#userID {
+    border: 2px solid black;
+    border-radius: 25px;
+    background-color: #2f2c2c;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+}
+
+#userID span {
+    font-size: 30px;
+}
+
+#userID img {
+    margin: 20px 20px 20px 20px;
+    width: 5%;
+    height: auto;
+}
+
+#containerJS {
+    border: 2px solid black;
+    border-radius: 25px;
+    background-color: #2f2c2c;
+    margin: 20px;
+}
+
+#communityID {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+#communityID img {
+    margin: 20px;
+}
+
+#communityID a {
+    color: white;
+    font-size: 30px;
+}
+
+#comDescription {
+    margin: 20px;
+    font-size: 20px;
+}
