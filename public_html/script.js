@@ -602,11 +602,17 @@ function getOtherUser() { //user.html
 }
 
 function getOtherUserInfo() { //profile.html
+    console.log("penis");
     let user = window.location.href.split("/")[5];
     let url = "/app/getProfile/" + user;
     fetch(url)
     .then( (response) => {
-        return response.json();
+        if (response.redirected == true) {
+            window.location.href = response.url;
+        }
+        else {
+            return response.json();
+        }
     })
     .then( (response) => {
         document.getElementById("nameField").innerText += " " + response.username;

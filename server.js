@@ -273,7 +273,12 @@ app.get("/app/getInfo/:user", (req, res) => {
 app.get("/app/getProfile/:user", (req, res) => {
     User.findOne( {username: req.params.user} )
     .then( (response) => {
-        res.send(response);
+        if (response == null) {
+            res.redirect("/app/home.html");
+        }
+        else {
+            res.send(response);
+        }
     })
 })
 
