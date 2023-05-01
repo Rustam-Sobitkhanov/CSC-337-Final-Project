@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../script.js"></script>
+    <link rel="shortcut icon" href="../../img/favicon.ico" type="image/x-icon">
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="../profile.css">
+</head>
+
+<body>
+    <div id="header">
+        <div class="headerChild" id="logoName">Sociable</div>
+        <div class="headerChild" id="greeting"></div>
+        <img src="/img/home.png" onclick="goHome()">
+    </div>
+    <div id="container">
+        <div id="about">
+            <div id="pfp"></div>
+            <p id="nameField">
+                Name:
+            </p>
+            <p id="ageField">
+                Age:
+            </p>
+            <p id="genderField">
+                Gender:
+            </p>
+        </div>
+        <div id="posts">
+        </div>
+    </div>
+
+    <script>
+        fetchOtherProfilePic();
+        getOtherUser();
+        getOtherUserInfo();
+        fetchOtherPosts();
+    </script>
+</body>
+</html>
