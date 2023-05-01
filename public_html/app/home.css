@@ -126,9 +126,9 @@ body {
 .username {
     display: inline-block;
     position: absolute;
-    font-size: 32px;
-    color: #908E9B;
-    margin-top: auto;
+    font-size: 20px;
+    color: white;
+    margin: 0px 0px 0px 20px;
 }
 
 span {
