@@ -60,6 +60,11 @@ body {
     margin: 20px 0px 0px 20px;
 }
 
+#profilePic {
+    position: relative;
+    margin-left: 55px;
+}
+
 #posts .post .postPicture {
     margin-top: 20px;
     border-radius: 50%;

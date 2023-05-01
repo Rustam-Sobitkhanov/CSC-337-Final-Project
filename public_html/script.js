@@ -135,12 +135,16 @@ function fetchProfilePic() { //profile.html
         return response.text();
     })
     .then( (response) => {
-        document.getElementById("pfp").innerHTML += "<img src='../img/pfp/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
+        document.getElementById("pfp").innerHTML += "<img id='profilePic' src='../img/pfp/" + response + "' alt='Your profile picture' width='450px;' height='450px'>";
     })
 }
 
 function goHome() { //all html files in "app" directory
     window.location.href = window.location.origin + "/app/home.html";
+}
+
+function goToProfile() { //post.html
+    window.location.href = window.location.origin + "/app/profile.html";
 }
 
 function getFriends() { //friends.html
@@ -163,7 +167,7 @@ function getFriends() { //friends.html
     })
 }
 
-function getUserInfo() {
+function getUserInfo() { //profile.html
     let x = decodeURI(document.cookie).split("; ");
     for (i in x) {
         if (x[i].substring(0,5) == "login") {
@@ -308,7 +312,7 @@ function post() { //post.html
     })
     .then( (response) => {
         alert(response);
-        window.location.href = window.location.origin + "/app/home.html";
+        goToProfile();
     })
 }
 
@@ -377,7 +381,7 @@ function userInCommunity() {
     })
 }
 
-function joinCommunity(button) {
+function joinCommunity(button) { //community.html
     let url = "/app/joinCommunity";
     let data = {communityId: button.id};
     fetch(url,
@@ -448,7 +452,7 @@ function getChatHistory() { //chat.html
     })
 }
 
-function checkEmptyMsg() {
+function checkEmptyMsg() { //chat.html
     if (document.getElementById("message").value.trim() == "" && document.getElementById("img").files.length == 0) {
         document.getElementById("button").innerHTML = '<button type="submit" disabled="disabled">Send message</button>';
     }
@@ -457,7 +461,7 @@ function checkEmptyMsg() {
     }
 }
 
-function sendMessage() {
+function sendMessage() { //chat.html
     let formData = new FormData();
     formData.append("content", document.getElementById("message").value);
     formData.append("picture", document.getElementById("img").files[0]);
@@ -477,11 +481,11 @@ function goToFriends() {
     window.location.href = window.location.origin + "/app/friends.html";
 }
 
-function goChat(button) {
+function goChat(button) { //friends.html
     window.location.href = window.location.origin + "/app/chat/" + button.id;
 }
 
-function getPfpAndUsername() {
+function getPfpAndUsername() { //profile.html
     let x = decodeURI(document.cookie).split("; ");
     for (i in x) {
         if (x[i].substring(0,5) == "login") {
@@ -501,7 +505,7 @@ function getPfpAndUsername() {
     })
 }
 
-function fetchPosts() {
+function fetchPosts() { //profile.html
     let x = decodeURI(document.cookie).split("; ");
     for (i in x) {
         if (x[i].substring(0,5) == "login") {
@@ -517,24 +521,76 @@ function fetchPosts() {
         return response.json();
     })
     .then( (response) => {
-        let username = response.username;
-        let pfp = response.pfp;
-        for (i in response.posts) {
-            fetch("/app/getPost/" + response.posts[i])
+        if (response.posts.length != 0) {
+            let username = response.username;
+            let pfp = response.pfp;
+            for (i in response.posts) {
+                fetch("/app/getPost/" + response.posts[i])
+                .then( (response) => {
+                    return response.json();
+                })
+                .then( (response) => {
+                    let postContent = '<span class="postUser"><img src="../img/pfp/' + pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
+                    postContent += "<p class='username'>" + username + "</p></span>";
+                    postContent += '<p class="content">' + response.content + '</p>';
+                    if (response.picture != undefined) {
+                        postContent += '<img src="../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
+                    }
+                    let time = new Date(response.date).toLocaleTimeString("en-US");
+                    let date = new Date(response.date).toLocaleDateString("en-US");
+                    let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
+                    posts.innerHTML += '<div class="post">' + postContent + timestamp + '</div>';
+                })
+            }
+        }
+        else {
+            posts.innerHTML += "<div class='post'><p style='margin-left: 260px;' class='content'>You have no posts!</p></div>";
+        }
+    })
+}
+
+function getFriendPosts() {
+    let posts = document.getElementById("childB");
+    let x = decodeURI(document.cookie).split("; ");
+    for (i in x) {
+        if (x[i].substring(0,5) == "login") {
+            x = x[i];
+        }
+    }
+    x = x.split("username")[1];
+    x = x.split('"')[2];
+    let url = "/app/getProfile/" + x;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        for (i in response.friends) {
+            fetch("/app/getInfo/" + response.friends[i])
             .then( (response) => {
                 return response.json();
             })
             .then( (response) => {
-                let postContent = '<span class="postUser"><img src="../img/pfp/' + pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
-                postContent += "<p class='username'>" + username + "</p></span>";
-                postContent += '<p class="content">' + response.content + '</p>';
-                if (response.picture != undefined) {
-                    postContent += '<img src="../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
+                let pfp = response.pfp;
+                let username = response.username;
+                if (response.posts.length != 0) {
+                    fetch("/app/getPost/" + response.posts[response.posts.length - 1])
+                    .then( (response) => {
+                        return response.json();
+                    })
+                    .then( (response) => {
+                        let postContent = '<span class="userDetails"><img src="../img/pfp/' + pfp + '" alt="Profile Picture" width="30px" height="30px" class="postUser">';
+                        postContent += "<p class='username'>" + username + "</p></span>";
+                        postContent += '<p class="content">' + response.content + '</p>';
+                        if (response.picture != undefined) {
+                            postContent += '<img src="../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
+                        }
+                        let time = new Date(response.date).toLocaleTimeString("en-US");
+                        let date = new Date(response.date).toLocaleDateString("en-US");
+                        let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
+                        posts.innerHTML = '<div class="postMain">' + postContent + timestamp + '</div>' + posts.innerHTML;
+                    })
                 }
-                let time = new Date(response.date).toLocaleTimeString("en-US");
-                let date = new Date(response.date).toLocaleDateString("en-US");
-                let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
-                posts.innerHTML += '<div class="post">' + postContent + timestamp + '</div>';
             })
         }
     })

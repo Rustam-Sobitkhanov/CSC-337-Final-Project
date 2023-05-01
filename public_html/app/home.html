@@ -34,19 +34,27 @@
         </div>
         <div id="childB">
             <div class="postMain">
-                <p>pfp name</p>
-                <p>user note</p>
-                <img src="/img/generic.png">
+                <span class="userDetails">
+                    <img src="../img/pfp/default.png" alt="Profile Picture" width="30px" height="30px" class="postUser">
+                    <p class="username">Anonymous123</p>
+                </span>
+                <p class="content">Got my new laptop today 😍 so excited!</p>
+                <img src="/img/laptop.jpg" class="postImage">
             </div>
             <div class="postMain">
-                <p>pfp name</p>
-                <p>user note</p>
-                <img src="/img/generic.png">
+                    <span class="userDetails">
+                        <img src="../img/pfp/default.png" alt="Profile Picture" width="30px" height="30px" class="postUser">
+                        <p class="username">Anonymous123</p>
+                    </span>
+                    <p class="content">Just ran this command and my laptop broke 😭</p>
+                    <img src="/img/command.jpg" class="postImage">
+                </div>
             </div>
         </div>
     </div>
     <script>
         getPfpAndUsername();
+        getFriendPosts();
     </script>
 </body>
 </html>
