@@ -5,19 +5,28 @@
     <script src="../script.js"></script>
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <title>Search</title>
+    <link rel="stylesheet" href="search.css">
 </head>
 
 <body>
-    <input type="text" id="query" oninput="checkEmptySearchQuery()">
+<div id="header">
+    <div class="headerChild" id="logoName">Sociable</div>
+    <div class="headerChild title">Search for Friends and Communities</div>
+    <img src="/img/home.png" onclick="goHome()">
+</div>
+<div id="container">
+    <input type="text" id="query" oninput="checkEmptySearchQuery()" placeholder="Enter username or community name">
     <span id="submitButton">
     <button onclick="search()" disabled="disabled">Search</button>
     </span>
-    <input type="radio" id="user" name="searchType" value="user" onclick="checkEmptySearchQuery()">
-    <label for="user">Users</label>
-    <input type="radio" id="community" name="searchType" value="community" onclick="checkEmptySearchQuery()">
-    <label for="community">Communities</label>
-    <br>
-    <div id="searchResults"></div>
-    <button type="button" onclick="goHome()">Back</button>
+    <div id="radioStuff">
+        <input type="radio" id="user" name="searchType" value="user" onclick="checkEmptySearchQuery()">
+        <label for="user">Users</label>
+        <input type="radio" id="community" name="searchType" value="community" onclick="checkEmptySearchQuery()">
+        <label for="community">Communities</label>
+    </div>
+</div>
+
+<div id="searchResults"></div>
 </body>
 </html>
