@@ -70,7 +70,7 @@ function createAccount() { //signup.html
     }
 }
 
-function greetUser() { //home.html
+function greetUser() { //profile.html
     let x = decodeURI(document.cookie).split("; ");
     for (i in x) {
         if (x[i].substring(0,5) == "login") {
@@ -163,6 +163,27 @@ function getFriends() { //friends.html
     })
 }
 
+function getUserInfo() {
+    let x = decodeURI(document.cookie).split("; ");
+    for (i in x) {
+        if (x[i].substring(0,5) == "login") {
+            x = x[i];
+        }
+    }
+    x = x.split("username")[1];
+    x = x.split('"')[2];
+    let url = "/app/getProfile/" + x;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        document.getElementById("nameField").innerText += " " + response.username;
+        document.getElementById("ageField").innerText += " " + response.age;
+        document.getElementById("genderField").innerText += " " + response.gender.toUpperCase();
+    })
+}
+
 function getFriendRequests() { //friends.html
     let url = "/app/getFriendRequests";
     fetch(url)
@@ -216,7 +237,9 @@ function acceptRequest(button) { //friends.html
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
-    window.location.reload();
+    .then( (response) => {
+        window.location.reload();
+    })
 }
 
 function search() { //search.html
@@ -456,6 +479,65 @@ function goToFriends() {
 
 function goChat(button) {
     window.location.href = window.location.origin + "/app/chat/" + button.id;
+}
+
+function getPfpAndUsername() {
+    let x = decodeURI(document.cookie).split("; ");
+    for (i in x) {
+        if (x[i].substring(0,5) == "login") {
+            x = x[i];
+        }
+    }
+    x = x.split("username")[1];
+    x = x.split('"')[2];
+    let url = "/app/getProfile/" + x;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        document.getElementById("pfpName").innerHTML += "<img src='../img/pfp/" + response.pfp + "' alt='ProfilePicture' width='50px' height='50px' class='pfp'>";
+        document.getElementById("pfpName").innerHTML += "<p class='username'>" + response.username + "</p>";
+    })
+}
+
+function fetchPosts() {
+    let x = decodeURI(document.cookie).split("; ");
+    for (i in x) {
+        if (x[i].substring(0,5) == "login") {
+            x = x[i];
+        }
+    }
+    x = x.split("username")[1];
+    x = x.split('"')[2];
+    let url = "/app/getProfile/" + x;
+    let posts = document.getElementById("posts");
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        let username = response.username;
+        let pfp = response.pfp;
+        for (i in response.posts) {
+            fetch("/app/getPost/" + response.posts[i])
+            .then( (response) => {
+                return response.json();
+            })
+            .then( (response) => {
+                let postContent = '<span class="postUser"><img src="../img/pfp/' + pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
+                postContent += "<p class='username'>" + username + "</p></span>";
+                postContent += '<p class="content">' + response.content + '</p>';
+                if (response.picture != undefined) {
+                    postContent += '<img src="../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
+                }
+                let time = new Date(response.date).toLocaleTimeString("en-US");
+                let date = new Date(response.date).toLocaleDateString("en-US");
+                let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
+                posts.innerHTML += '<div class="post">' + postContent + timestamp + '</div>';
+            })
+        }
+    })
 }
 
 var numMsgs = 0;

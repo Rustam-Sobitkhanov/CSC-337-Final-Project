@@ -102,3 +102,19 @@ body {
     -webkit-transform:scale(1.5); /* or some other value */
     transform:scale(1.5);
 }
+
+.pfp {
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.username {
+    display: inline-block;
+    margin-left: 12px;
+    position: absolute;
+    font-size: 20px;
+}
+
+#pfpName {
+    text-align: left;
+}

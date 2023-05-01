@@ -26,13 +26,13 @@
                     <button type="button" onclick="removeProfilePic()">Remove profile picture</button>
                 </div>
             </div>
-            <p>
+            <p id="nameField">
                 Name:
             </p>
-            <p>
+            <p id="ageField">
                 Age:
             </p>
-            <p>
+            <p id="genderField">
                 Gender:
             </p>
         </div>
@@ -42,20 +42,14 @@
 
         </div>
         <div id="posts">
-            <div class="post">
-                <p>nothingToSay</p>
-                <img src="/img/generic.png">
-            </div>
-            <div class="post">
-                <p>nothingToSay</p>
-                <img src="/img/generic.png">
-            </div>
         </div>
     </div>
 
     <script>
         fetchProfilePic();
         greetUser();
+        getUserInfo();
+        fetchPosts();
     </script>
 </body>
 </html>
