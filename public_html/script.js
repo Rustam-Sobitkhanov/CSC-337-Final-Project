@@ -369,7 +369,6 @@ function userInCommunity() {
         }
         else {
             document.getElementById("desc").innerHTML += "<a href='/app/post/" + community + "' id='createBTN'>Create post</a>";
-            document.getElementById("posts").innerHTML += "You're in this community";
             getCommunityPosts();
         }
     })
