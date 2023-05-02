@@ -359,9 +359,10 @@ function getCommunity() { //community.html
     .then( (response) => { //fetch community info, console log the json object containing all its info and add it to the page
         console.log(response);
         document.getElementsByTagName("title")[0].innerText += response.name;
-        document.getElementsByTagName("body")[0].innerHTML = "<img src='../../img/communities/" + response.picture + "' alt='Community Picture' width='200px' height='200px'>" + document.getElementsByTagName("body")[0].innerHTML;
-        document.getElementById("title").innerText = response.name;
-        document.getElementById("desc").innerText = response.description;
+        document.getElementById("img").innerHTML = "<img src='../../img/communities/" + response.picture + "' alt='Community Picture'>";
+        document.getElementsByClassName("title")[0].innerText = response.name;
+        document.getElementsByClassName("title")[1].innerText = response.name;
+        document.getElementById("desc").innerText = "Description: " + response.description;
     })
 }
 
@@ -374,9 +375,8 @@ function userInCommunity() {
     })
     .then( (response) => {
         if (!(response == "In community")) { //adds a join button to the community page if the user is not already a member
-            document.getElementsByTagName("body")[0].innerHTML += "<button onclick='joinCommunity(this)' id=" + response + ">Join</button>"
+            document.getElementById("desc").innerHTML += "<button onclick='joinCommunity(this)' id='joinBTN'>Join</button>"
         }
-        document.getElementsByTagName("body")[0].innerHTML += '<div><button onclick="goHome()">Return</button></div>';
     })
 }
 

@@ -4,16 +4,26 @@
     <meta charset="UTF-8">
     <script src="../../script.js"></script>
     <link rel="shortcut icon" href="../../img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/app/community.css">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="./community.css">
 </head>
-
 <body>
-    <h2 id="title"></h2>
-    <h4 id="desc"></h4>
-    <script>
-        getCommunity();
-        userInCommunity();
-    </script>
+<div id="header">
+    <div class="headerChild" id="logoName">Sociable</div>
+    <div class="headerChild title"></div>
+    <img src="/img/home.png" onclick="goHome()">
+</div>
+<div id="comContent">
+    <div id="pfpTitle">
+        <span id="img"></span>
+        <span class="title"></span>
+    </div>
+    <div id="desc"></div>
+</div>
+<script>
+    getCommunity();
+    userInCommunity();
+</script>
+
 </body>
 </html>

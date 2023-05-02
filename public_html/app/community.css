@@ -1,0 +1,89 @@
+body {
+    margin: 0px 200px 0px 200px;
+    background-color: #262626;
+    color: white;
+}
+
+
+#header {
+    margin-top: 5px;
+    background-color: #262A56;
+    border-radius: 25px;
+}
+
+.headerChild {
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+    font-size: 35px;
+    color: white;
+}
+
+.title {
+    margin-left: 26%;
+}
+
+#header img {
+    display: inline-block;
+    position: absolute;
+    right: 15%;
+    width: 4%;
+    top: 10px;
+}
+
+#logoName {
+    padding: 15px;
+    margin-left: 20px;
+}
+
+#comContent {
+    border: 2px solid black;
+    border-radius: 25px;
+    background-color: #2f2c2c;
+    margin: 20px 20px 20px 20px;
+    color: white;
+    text-align: center;
+
+}
+
+#pfpTitle {
+    display: flex;
+    align-items: center;
+}
+
+#comContent .title {
+    margin: 0px;
+    font-size: 20px;
+}
+
+#comContent img {
+    margin: 20px;
+    width: 60%;
+    height: auto;
+}
+
+#comContent #img {
+    width: 100px;
+}
+
+#desc {
+    text-align: left;
+    margin: 0px 0px 20px 20px;
+    font-size: 20px;
+    display: flex;
+}
+
+#joinBTN {
+    margin-left: 30px;
+    width: 100px;
+    height: 30px;
+    border-radius: 25px;
+    background-color: orangered;
+    color: white;
+}
+
+#joinBTN:hover {
+    color: orangered;
+    background-color: white;
+    cursor: pointer;
+}
