@@ -368,14 +368,14 @@ function userInCommunity() {
             document.getElementById("posts").innerHTML += "Please join this community to view its posts";
         }
         else {
-            document.getElementById("desc").innerHTML += "<a href='/app/post/" + community + "' id='createBTN'>Create post</a>";
+            document.getElementById("desc").innerHTML += "<a href='/app/post/" + community + "'><input type='button' id='createBTN' value='Create post'></a>";
             getCommunityPosts();
         }
     })
 }
 
 function getCommunityPosts() { //community.html
-    let posts = document.getElementById("posts");
+    let posts = document.getElementById("comPosts");
     let communityId = window.location.href.split("/")[5];
     let url = "/app/getPosts/" + communityId;
     fetch(url)
@@ -399,15 +399,15 @@ function getCommunityPosts() { //community.html
                     return response.json();
                 })
                 .then( (response) => {
-                    let postContent = '<span class="postUser"><img src="../../img/pfp/' + response.pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
-                    postContent += "<p class='username'>" + fromUser + "</p></span>";
+                    let postContent = '<div id="pfpUserName"><img id="pfpImg" src="../../img/pfp/' + response.pfp + '" alt="Profile Picture" class="postPicture">';
+                    postContent += "<span class='username'>" + fromUser + "</span></div>";
                     postContent += '<p class="content">' + content + '</p>';
                     if (picture != undefined) {
-                        postContent += '<img src="../img/posts/' + picture + '" alt="picture" width="300px" height="300px">';
+                        postContent += '<div id="noUse"><img id="postedPic" src="/img/posts/' + picture + '" alt="picture" width="300px" height="300px"></div>';
                     }
                     let time = new Date(date).toLocaleTimeString("en-US");
                     let day = new Date(date).toLocaleDateString("en-US");
-                    let timestamp = '<span class="timestamp">' + day + " " + time + '</span>';
+                    let timestamp = '<div class="timestamp">' + day + " " + time + '</div>';
                     posts.innerHTML += '<div class="post">' + postContent + timestamp + '</div>';
                 })
             })
