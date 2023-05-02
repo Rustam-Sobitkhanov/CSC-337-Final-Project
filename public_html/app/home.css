@@ -29,6 +29,11 @@ body {
     color: white;
 }
 
+#logoName {
+    padding: 15px;
+    margin-left: 20px;
+}
+
 #container {
     overflow: hidden;
     width: 100%;

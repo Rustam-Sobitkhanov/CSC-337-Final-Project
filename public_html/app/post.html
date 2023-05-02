@@ -9,19 +9,24 @@
 </head>
 
 <body>
+<div id="header">
+    <div class="headerChild" id="logoName">Sociable</div>
+    <div class="headerChild title">Create a Post</div>
+    <img src="/img/home.png" onclick="goHome()">
+</div>
+<div id="container">
     <h1>Create a new post</h1>
     <div class="input">
-        <label for="postContent">Say something</label>
+        <label for="postContent">Say something:</label>
         <textarea id="postContent" oninput="checkEmptyPostContent()" rows="4" cols="30" name="postContent"></textarea>
     </div>
-    
     <div class="input">
         <label for="img">Attach a file:</label>
         <input type="file" id="img" accept="image/*" name="img">
     </div>
     <div id="submitButton">
-    <button type="button" disabled="disabled">Post</button>
+        <button type="button" disabled="disabled">Post</button>
     </div>
-    <button type="button" onclick="goToProfile()">Back</button>
+</div>
 </body>
 </html>
