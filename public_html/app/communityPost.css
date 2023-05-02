@@ -4,7 +4,6 @@ body {
     color: white;
 }
 
-
 #header {
     margin-top: 5px;
     background-color: #262A56;
@@ -20,7 +19,7 @@ body {
 }
 
 .title {
-    margin-left: 26%;
+    margin-left: 23%;
 }
 
 #header img {
@@ -36,61 +35,32 @@ body {
     margin-left: 20px;
 }
 
-#comContent {
-    border: 2px solid black;
-    border-radius: 25px;
-    background-color: #2f2c2c;
-    margin: 20px 20px 20px 20px;
-    color: white;
-    text-align: center;
-
-}
-
-#pfpTitle {
-    display: flex;
-    align-items: center;
-}
-
-#comContent .title {
-    margin: 0px;
-    font-size: 20px;
-}
-
-#comContent img {
+#container {
     margin: 20px;
-    width: 60%;
-    height: auto;
-}
-
-#comContent #img {
-    width: 100px;
-}
-
-#desc {
-    text-align: left;
-    margin: 0px 0px 20px 20px;
-    font-size: 20px;
-    display: flex;
-}
-
-#joinBTN {
-    margin-left: 30px;
-    width: 100px;
-    height: 30px;
     border-radius: 25px;
-    background-color: orangered;
-    color: white;
+    border: 2px solid black;
+    background-color: #2f2c2c;
 }
 
-#joinBTN:hover {
-    color: orangered;
-    background-color: white;
-    cursor: pointer;
-}
-
-#createBTN {
+#container h1 {
     text-align: center;
+}
+
+.input {
+    margin: 20px;
+    font-size: 20px;
+}
+
+label {
+    vertical-align: top;
+}
+
+#img {
     margin-left: 30px;
+}
+
+button {
+    margin: 20px;
     width: 100px;
     height: 30px;
     border-radius: 25px;
@@ -98,8 +68,17 @@ body {
     color: white;
 }
 
-#createBTN:hover {
-    color: orangered;
+button:hover {
     background-color: white;
+    color: orangered;
     cursor: pointer;
+}
+
+textarea {
+    padding: 20px;
+    width: 400px;
+    height: 80px;
+    border-radius: 25px;
+    margin-left: 10px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

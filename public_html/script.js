@@ -261,6 +261,7 @@ function search() { //search.html
         return response.json();
     })
     .then( (response) => {
+        document.getElementById("query").value = "";
         if (response.length == 0) {
             document.getElementById("searchResults").innerHTML = "<h3>No results were returned</h3>";
             return;
@@ -300,6 +301,9 @@ function post() { //post.html
     let formData = new FormData();
     formData.append("content", document.getElementById("postContent").value);
     formData.append("picture", document.getElementById("img").files[0]);
+    if (window.location.href.split("/").length == 6) {
+        formData.append("community", window.location.href.split("/")[5]);
+    }
     let url = "/app/post/";
     fetch(url,
         {
@@ -357,8 +361,7 @@ function getCommunity() { //community.html
         return response.json();
     })
     .then( (response) => { //fetch community info, console log the json object containing all its info and add it to the page
-        console.log(response);
-        document.getElementsByTagName("title")[0].innerText += response.name;
+         document.getElementsByTagName("title")[0].innerText += response.name;
         document.getElementById("img").innerHTML = "<img src='../../img/communities/" + response.picture + "' alt='Community Picture'>";
         document.getElementsByClassName("title")[0].innerText = response.name;
         document.getElementsByClassName("title")[1].innerText = response.name;
@@ -375,14 +378,17 @@ function userInCommunity() {
     })
     .then( (response) => {
         if (!(response == "In community")) { //adds a join button to the community page if the user is not already a member
-            document.getElementById("desc").innerHTML += "<button onclick='joinCommunity(this)' id='joinBTN'>Join</button>"
+            document.getElementById("desc").innerHTML += "<button onclick='joinCommunity()' id='joinBTN'>Join</button>"
+        }
+        else {
+            document.getElementById("desc").innerHTML += "<a href='/app/post/" + community + "' id='createBTN'>Create post</a>";
         }
     })
 }
 
-function joinCommunity(button) { //community.html
+function joinCommunity() { //community.html
     let url = "/app/joinCommunity";
-    let data = {communityId: button.id};
+    let data = {communityId: window.location.href.split("/")[5]};
     fetch(url,
         {
             method: "POST",

@@ -25,6 +25,7 @@ app.use("/app/user.html", (req, res, next) => {
     res.redirect("/app/home.html");
 })
 
+app.use("/app/post/*", express.static(__dirname + "/public_html/app/communityPost.html"));
 app.use("/app/user/*", express.static(__dirname + "/public_html/app/user.html"));
 app.use("/app/community/*", express.static(__dirname + "/public_html/app/community.html"));
 app.use("/app/chat/*", express.static(__dirname + "/public_html/app/chat.html"));
@@ -353,6 +354,7 @@ app.get("/app/search/:type/:query", (req, res) => {
 })
 
 app.post("/app/post", posts.single("picture"), (req, res) => {
+    console.log
     User.findOne( {username: req.cookies.login.username} )
     .then( (response) => {
         let user = response._id;
@@ -375,11 +377,24 @@ app.post("/app/post", posts.single("picture"), (req, res) => {
                 }
             )
         }
+        if (req.body.community) {
+            newPost.community = req.body.community;
+        }
         newPost.save()
         .then( (response) => {
-            User.updateOne( {_id: user}, {$addToSet: {posts: response._id}}, {new: true})
+            let postId = response._id;
+            User.updateOne( {_id: user}, {$addToSet: {posts: postId}}, {new: true})
             .then( (response) => {
-                res.send("Created new post!");
+                if (req.body.community) {
+                    Community.updateOne( {_id: req.body.community}, {$addToSet: {posts: postId}}, {new: true} )
+                    .then( (response) => {
+                        console.log(response);
+                        res.send("Post saved successfully");
+                    })
+                }
+                else {
+                    res.send("Post saved successfully");
+                }
             })
         })
     })
