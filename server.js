@@ -388,7 +388,6 @@ app.post("/app/post", posts.single("picture"), (req, res) => {
                 if (req.body.community) {
                     Community.updateOne( {_id: req.body.community}, {$addToSet: {posts: postId}}, {new: true} )
                     .then( (response) => {
-                        console.log(response);
                         res.send("Post saved successfully");
                     })
                 }
