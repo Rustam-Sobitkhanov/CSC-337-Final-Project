@@ -354,7 +354,6 @@ app.get("/app/search/:type/:query", (req, res) => {
 })
 
 app.post("/app/post", posts.single("picture"), (req, res) => {
-    console.log
     User.findOne( {username: req.cookies.login.username} )
     .then( (response) => {
         let user = response._id;
