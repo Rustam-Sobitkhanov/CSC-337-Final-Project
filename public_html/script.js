@@ -340,7 +340,7 @@ function createCommunity() { //createCommunity.html
         return response.text();
     })
     .then( (response) => {
-        if (response == "Created Community!") {
+        if (response == "Community Created!") {
             document.getElementById("name").value = "";
             document.getElementById("desc").value = "";
             document.getElementById("picture").value = "";
