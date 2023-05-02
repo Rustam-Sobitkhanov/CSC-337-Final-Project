@@ -18,6 +18,8 @@
     padding-left: 20px;
     padding-top: 20px;
     height: 400vh;
+    background-color: #262626;
+    color: #F2F5F5;
 }
 
 button {
@@ -46,4 +48,8 @@ body {
 #img {
     height: 30px;
     padding-bottom: 0px;
+}
+
+.username {
+    color: #37B9F1;
 }

@@ -455,7 +455,7 @@ function getChatHistory() { //chat.html
         }
         else {
             var messages = [];
-            if (numMsgs != response.length) { //do something with currMsgCount variable me thinks
+            if (numMsgs != response.length) {
                 for (let i = numMsgs; i < response.length; i++) {
                     currMsgCount += 1;
                     let url = "/app/getMessage/" + response[i];
