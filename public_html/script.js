@@ -587,22 +587,27 @@ function getFriendPosts() { //home.html
                 let pfp = response.pfp;
                 let username = response.username;
                 if (response.posts.length != 0) {
-                    fetch("/app/getPost/" + response.posts[response.posts.length - 1])
-                    .then( (response) => {
-                        return response.json();
-                    })
-                    .then( (response) => {
-                        let postContent = '<span class="userDetails"><img src="../img/pfp/' + pfp + '" alt="Profile Picture" width="20px" height="20px" class="postUser">';
-                        postContent += "<p class='username'>" + username + "</p></span>";
-                        postContent += '<p class="content">' + response.content + '</p>';
-                        if (response.picture != undefined) {
-                            postContent += '<img src="../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
-                        }
-                        let time = new Date(response.date).toLocaleTimeString("en-US");
-                        let date = new Date(response.date).toLocaleDateString("en-US");
-                        let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
-                        posts.innerHTML = '<div class="postMain">' + postContent + timestamp + '</div>' + posts.innerHTML;
-                    })
+                    for (let i = 0; response.posts.length != i; i++) {
+                        let postId = response.posts[response.posts.length - (i + 1)];
+                        fetch("/app/getPost/" + postId)
+                        .then( (response) => {
+                            return response.json();
+                        })
+                        .then( (response) => {
+                            if (!response.community) {
+                                let postContent = '<span class="userDetails"><img src="../img/pfp/' + pfp + '" alt="Profile Picture" width="20px" height="20px" class="postUser">';
+                                postContent += "<p class='username'>" + username + "</p></span>";
+                                postContent += '<p class="content">' + response.content + '</p>';
+                                if (response.picture != undefined) {
+                                    postContent += '<img src="../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
+                                }
+                                let time = new Date(response.date).toLocaleTimeString("en-US");
+                                let date = new Date(response.date).toLocaleDateString("en-US");
+                                let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
+                                posts.innerHTML = '<div class="postMain">' + postContent + timestamp + '</div>' + posts.innerHTML;
+                            }
+                        })
+                    } 
                 }
             })
         }
