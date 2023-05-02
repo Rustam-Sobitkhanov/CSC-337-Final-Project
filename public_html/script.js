@@ -268,13 +268,12 @@ function search() { //search.html
         let results = [];
         if (document.getElementById("user").checked) {
             for (i in response) {
-                document.getElementById("searchResults").innerHTML += "<div><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture' width='50px' height='50px'><p>" +response[i].username + "</p></div>";
+                document.getElementById("searchResults").innerHTML += "<div id='userID'><img src='../img/pfp/" + response[i].pfp + "' alt='ProfilePicture' width='50px' height='50px'><a href='/app/user/" + response[i].username + "'>" + response[i].username +  "</a></div>";
             }
         }
         else {
             for (i in response) {
-                document.getElementById("searchResults").innerHTML += "<div id='containerJS'><div id='communityID'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><span><a href='community/" + response[i]._id + "'>" + response[i].name + "</a></span></div><div id='comDescription'> Description: " + response[i].description + "</div></div>";
-            }
+                document.getElementById("searchResults").innerHTML += "<div id='containerJS'><div id='communityID'><img src='../img/communities/" + response[i].picture + "' alt='ProfilePicture' width='50px' height='50px'><span><a href='community/" + response[i]._id + "'>" + response[i].name + "</a></span></div><div id='comDescription'> Description: " + response[i].description + "</div></div>";            }
         }
     })
 }
