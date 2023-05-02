@@ -438,6 +438,9 @@ function joinCommunity() { //community.html
 
 function getChatHistory() { //chat.html
     let otherUser = window.location.href.split("/")[5];
+    if (document.getElementsByTagName("title")[0].innerText == "") {
+        document.getElementsByTagName("title")[0].innerText = otherUser;
+    }
     let url = "/app/getChat/" + otherUser;
     let currMsgCount = 0;
     fetch(url)
@@ -621,6 +624,8 @@ function getFriendPosts() { //home.html
 function getOtherUser() { //user.html
     let user = window.location.href.split("/")[5];
     document.getElementById("greeting").innerText += user;
+    let otherUser = window.location.href.split("/")[5];
+    document.getElementsByTagName("title")[0].innerText = otherUser;
 }
 
 function getOtherUserInfo() { //profile.html

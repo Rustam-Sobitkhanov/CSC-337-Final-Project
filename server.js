@@ -71,7 +71,7 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
     console.log("An error occurred while connecting to the database: " + err);
 })
 
-const User = new mongoose.model("user", new mongoose.Schema( //user schema, will definitely add to this more as needed
+const User = new mongoose.model("user", new mongoose.Schema(
     {
         username: String,
         salt: Number,

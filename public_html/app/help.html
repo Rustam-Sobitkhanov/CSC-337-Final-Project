@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <script src="../../script.js"></script>
+    <link rel="shortcut icon" href="../../img/favicon.ico" type="image/x-icon">
+    <title>Help</title>
+    <link rel="stylesheet" type="text/css" href="../chat.css">
+</head>
+
+<body>
+    <div id="chatHistory"></div>
+    <div id="userInput">
+        <div id="inputMessage">
+            <input type="text" id="message" name="message" placeholder="Your message" oninput="checkEmptyMsg()"></input>
+            <span id="button">
+                <button type="submit" onclick="sendMessage()">Send message</button>
+            </span>
+            <div id="sendPic">
+                <input type="file" id="img" accept="image/*" name="img" oninput="checkEmptyMsg()">
+            </div>
+            <button onclick="goToFriends()">Return</button>
+        </div>
+    </div>
+</body>
+</html>
