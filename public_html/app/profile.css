@@ -148,7 +148,9 @@ body {
 }
 
 
-
+input {
+    color: darkcyan;
+}
 
 
 /* Dropdown Button */

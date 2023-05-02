@@ -4,22 +4,58 @@
     <script src="../../script.js"></script>
     <link rel="shortcut icon" href="../../img/favicon.ico" type="image/x-icon">
     <title>Help</title>
-    <link rel="stylesheet" type="text/css" href="../chat.css">
+    <link rel="stylesheet" type="text/css" href="./help.css">
 </head>
 
 <body>
-    <div id="chatHistory"></div>
-    <div id="userInput">
-        <div id="inputMessage">
-            <input type="text" id="message" name="message" placeholder="Your message" oninput="checkEmptyMsg()"></input>
-            <span id="button">
-                <button type="submit" onclick="sendMessage()">Send message</button>
-            </span>
-            <div id="sendPic">
-                <input type="file" id="img" accept="image/*" name="img" oninput="checkEmptyMsg()">
-            </div>
-            <button onclick="goToFriends()">Return</button>
+    <div id="intro">
+        Welcome to Sociable! Our platform is designed to help you connect with friends and share your interests with the world. This page is designed to help you get started!
+
+    <div id="description">
+        <div class="step">
+            Creating an Account:
+            To access Sociable, you will first need to create an account. To do this, go to the account creation page and fill in your information and some additional details. Once you have successfully created your account, you can log in and begin exploring Sociable!
         </div>
+
+        <div class="step">
+            Setting Up Your Profile:
+            After logging in, you can set up your profile by adding a profile picture for others to recognize you. You can do this by navigating to your profile page, hovering over the "Change Profile Picture Button," and selecting a picture to upload and pressing "Change profile picture".
+        </div>
+        
+        <div class="step">
+            Creating Posts:
+            Creating a post can also be done within your profile page. To create a post, click on the bar that says "What's on your mind?" in your profile page where you will be redirected to a page to create a new post. From there, you can write anything you want, and attach a photo if you wish. Then, once you're done, hit the "Post" button and your post will be live! Once you have created your post, it will be visible to all other users on Sociable.
+        </div>
+
+        <div class="step">
+            Friends:
+            Already have friends that are on Sociable and want to connect with them? In the friends page, you will be able to view all your current friends, as well as
+            any pending friend requests that you may have from other users. Within this page, you will also be able to send your own friend requests to other users
+            that you want to be friends with.
+        </div>
+
+        <div class="step">
+            Chat:
+            Once you've added another user as your friend, you are free to chat with them on Sociable! Head over to your friends list, and click the "Chat now!" button next to their name to
+            begin chatting with them. Inside of the chat, you will be able to send text as well as pictures to each other.
+        </div>
+
+        <div class="step">
+            Communities:
+            Is there something that you're really passionate about or an activity that you enjoy? Well look no further, as Sociable has Communities! Communities are groups that anyone with common interests can join and users of such communities can create posts related to the comunity to show off to others in the community.
+            To join a community, navigate to the "Search" section of Sociable and search for the community you would like to join. From there, you can join the community and upon doing so, you will be able to post things within the community that only other community members will be able to view.
+        </div>
+
+        <div class="step">
+            Searching for Users and Communities:
+            To find your friends Sociable, use the search feature to search for their username. From there, if they show up in the search results, head back over to your friends page and send them a friend request! Alternatively, to find communities,
+            use the search feature and tick the "communities" option to search for a specific community that you would like to join. From there, you will be able to view the community's page and join it to view its posts.
+        </div>
+        
+        We hope you find Sociable easy to use and enjoy connecting with other users.
+        <br>
+        <br>
+        -The Sociable Team
     </div>
 </body>
 </html>

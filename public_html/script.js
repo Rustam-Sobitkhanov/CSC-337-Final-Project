@@ -305,7 +305,7 @@ function post() { //post.html
     })
     .then( (response) => {
         alert(response);
-        goToProfile();
+        goBack();
     })
 }
 
