@@ -347,7 +347,7 @@ function getCommunity() { //community.html
         return response.json();
     })
     .then( (response) => { //fetch community info, console log the json object containing all its info and add it to the page
-         document.getElementsByTagName("title")[0].innerText += response.name;
+        document.getElementsByTagName("title")[0].innerText += response.name;
         document.getElementById("img").innerHTML = "<img src='../../img/communities/" + response.picture + "' alt='Community Picture'>";
         document.getElementsByClassName("title")[0].innerText = response.name;
         document.getElementsByClassName("title")[1].innerText = response.name;
@@ -375,7 +375,8 @@ function userInCommunity() {
     })
 }
 
-function getCommunityPosts() {
+function getCommunityPosts() { //community.html
+    let posts = document.getElementById("posts");
     let communityId = window.location.href.split("/")[5];
     let url = "/app/getPosts/" + communityId;
     fetch(url)
@@ -384,12 +385,32 @@ function getCommunityPosts() {
     })
     .then( (response) => {
         for (i in response) {
+            let postId = response[i];
             fetch("/app/getPost/" + response[i])
             .then( (response) => {
                 return response.json();
             })
             .then( (response) => {
-                console.log(response);
+                let content = response.content;
+                let picture = response.picture;
+                let date = response.date;
+                let fromUser = response.from;
+                fetch("/app/getProfile/" + fromUser)
+                .then( (response) => {
+                    return response.json();
+                })
+                .then( (response) => {
+                    let postContent = '<span class="postUser"><img src="../../img/pfp/' + response.pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
+                    postContent += "<p class='username'>" + fromUser + "</p></span>";
+                    postContent += '<p class="content">' + content + '</p>';
+                    if (picture != undefined) {
+                        postContent += '<img src="../img/posts/' + picture + '" alt="picture" width="300px" height="300px">';
+                    }
+                    let time = new Date(date).toLocaleTimeString("en-US");
+                    let day = new Date(date).toLocaleDateString("en-US");
+                    let timestamp = '<span class="timestamp">' + day + " " + time + '</span>';
+                    posts.innerHTML += '<div class="post">' + postContent + timestamp + '</div>';
+                })
             })
         }
     })
