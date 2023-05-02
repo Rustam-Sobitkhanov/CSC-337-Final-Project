@@ -71,14 +71,7 @@ function createAccount() { //signup.html
 }
 
 function greetUser() { //profile.html
-    let x = decodeURI(document.cookie).split("; ");
-    for (i in x) {
-        if (x[i].substring(0,5) == "login") {
-            x = x[i];
-        }
-    }
-    x = x.split("username")[1];
-    x = x.split('"')[2];
+    let x = usernameFromCookie();
     document.getElementById("greeting").innerText += " " + x;
 }
 
@@ -168,14 +161,7 @@ function getFriends() { //friends.html
 }
 
 function getUserInfo() { //profile.html
-    let x = decodeURI(document.cookie).split("; ");
-    for (i in x) {
-        if (x[i].substring(0,5) == "login") {
-            x = x[i];
-        }
-    }
-    x = x.split("username")[1];
-    x = x.split('"')[2];
+    let x = usernameFromCookie();
     let url = "/app/getProfile/" + x;
     fetch(url)
     .then( (response) => {
@@ -379,9 +365,32 @@ function userInCommunity() {
     .then( (response) => {
         if (!(response == "In community")) { //adds a join button to the community page if the user is not already a member
             document.getElementById("desc").innerHTML += "<button onclick='joinCommunity()' id='joinBTN'>Join</button>"
+            document.getElementById("posts").innerHTML += "Please join this community to view its posts";
         }
         else {
             document.getElementById("desc").innerHTML += "<a href='/app/post/" + community + "' id='createBTN'>Create post</a>";
+            document.getElementById("posts").innerHTML += "You're in this community";
+            getCommunityPosts();
+        }
+    })
+}
+
+function getCommunityPosts() {
+    let communityId = window.location.href.split("/")[5];
+    let url = "/app/getPosts/" + communityId;
+    fetch(url)
+    .then( (response) => {
+        return response.json();
+    })
+    .then( (response) => {
+        for (i in response) {
+            fetch("/app/getPost/" + response[i])
+            .then( (response) => {
+                return response.json();
+            })
+            .then( (response) => {
+                console.log(response);
+            })
         }
     })
 }
@@ -491,14 +500,7 @@ function goChat(button) { //friends.html
 }
 
 function getPfpAndUsername() { //profile.html
-    let x = decodeURI(document.cookie).split("; ");
-    for (i in x) {
-        if (x[i].substring(0,5) == "login") {
-            x = x[i];
-        }
-    }
-    x = x.split("username")[1];
-    x = x.split('"')[2];
+    let x = usernameFromCookie();
     let url = "/app/getProfile/" + x;
     fetch(url)
     .then( (response) => {
@@ -511,14 +513,7 @@ function getPfpAndUsername() { //profile.html
 }
 
 function fetchPosts() { //profile.html
-    let x = decodeURI(document.cookie).split("; ");
-    for (i in x) {
-        if (x[i].substring(0,5) == "login") {
-            x = x[i];
-        }
-    }
-    x = x.split("username")[1];
-    x = x.split('"')[2];
+    let x = usernameFromCookie();
     let url = "/app/getProfile/" + x;
     let posts = document.getElementById("posts");
     fetch(url)
@@ -554,16 +549,9 @@ function fetchPosts() { //profile.html
     })
 }
 
-function getFriendPosts() {
+function getFriendPosts() { //home.html
     let posts = document.getElementById("childB");
-    let x = decodeURI(document.cookie).split("; ");
-    for (i in x) {
-        if (x[i].substring(0,5) == "login") {
-            x = x[i];
-        }
-    }
-    x = x.split("username")[1];
-    x = x.split('"')[2];
+    let x = usernameFromCookie();
     let url = "/app/getProfile/" + x;
     fetch(url)
     .then( (response) => {
@@ -644,16 +632,18 @@ function fetchOtherPosts() { //profile.html
                     return response.json();
                 })
                 .then( (response) => {
-                    let postContent = '<span class="postUser"><img src="../../img/pfp/' + pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
-                    postContent += "<p class='username'>" + username + "</p></span>";
-                    postContent += '<p class="content">' + response.content + '</p>';
-                    if (response.picture != undefined) {
-                        postContent += '<img src="../../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
+                    if (response.community == undefined || user == usernameFromCookie()) {//here
+                        let postContent = '<span class="postUser"><img src="../../img/pfp/' + pfp + '" alt="Profile Picture" width="30px" height="30px" class="postPicture">';
+                        postContent += "<p class='username'>" + username + "</p></span>";
+                        postContent += '<p class="content">' + response.content + '</p>';
+                        if (response.picture != undefined) {
+                            postContent += '<img src="../../img/posts/' + response.picture + '" alt="picture" width="300px" height="300px">';
+                        }
+                        let time = new Date(response.date).toLocaleTimeString("en-US");
+                        let date = new Date(response.date).toLocaleDateString("en-US");
+                        let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
+                        posts.innerHTML += '<div class="post">' + postContent + timestamp + '</div>';
                     }
-                    let time = new Date(response.date).toLocaleTimeString("en-US");
-                    let date = new Date(response.date).toLocaleDateString("en-US");
-                    let timestamp = '<span class="timestamp">' + date + " " + time + '</span>';
-                    posts.innerHTML += '<div class="post">' + postContent + timestamp + '</div>';
                 })
             }
         }
@@ -673,6 +663,18 @@ function fetchOtherProfilePic() { //profile.html
     .then( (response) => {
         document.getElementById("pfp").innerHTML += "<img id='profilePic' src='../../img/pfp/" + response.pfp + "' alt='Your profile picture' width='450px;' height='450px'>";
     })
+}
+
+function usernameFromCookie() {
+    let username = decodeURI(document.cookie).split("; ");
+    for (i in username) {
+        if (username[i].substring(0,5) == "login") {
+            username = username[i];
+        }
+    }
+    username = username.split("username")[1];
+    username = username.split('"')[2];
+    return username;
 }
 
 var numMsgs = 0;

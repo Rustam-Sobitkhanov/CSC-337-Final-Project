@@ -250,8 +250,8 @@ app.get("/app/getFriendRequests", (req, res) => {
     })
 })
 
-app.get("/app/getPosts/", (req, res) => {
-    User.findOne( {username: req.cookies.login.username} )
+app.get("/app/getPosts/:communityId", (req, res) => {
+    Community.findOne( {_id: req.params.communityId} )
     .then( (response) => {
         res.send(response.posts);
     })
