@@ -9,27 +9,34 @@
 </head>
 
 <body>
+<div id="header">
+    <div class="headerChild" id="logoName">Sociable</div>
+    <div class="headerChild title">Create a community</div>
+    <img src="/img/home.png" onclick="goHome()">
+</div>
+<div id="container">
     <h1>Create a new community</h1>
-    
+
     <div class="input">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" oninput="checkEmptyCommunityFields()">
+        <input type="text" id="name" name="name" oninput="checkEmptyCommunityFields()" placeholder="Community name">
     </div>
-    
+
     <div class="input">
-    <label for="desc">Description:</label>
-    <textarea type="text" id="desc" name="desc" oninput="checkEmptyCommunityFields()"></textarea>
+        <label for="desc">Description:</label>
+        <textarea type="text" id="desc" name="desc" oninput="checkEmptyCommunityFields()" placeholder="Community description"></textarea>
     </div>
-    
+
     <div class="input">
-    <label for="picture">Picture:</label>
-    <input type="file" id="picture" accept="image/*" name="picture" oninput="checkEmptyCommunityFields()">
+        <label for="picture">Picture:</label>
+        <input type="file" id="picture" accept="image/*" name="picture" oninput="checkEmptyCommunityFields()">
     </div>
-    
+
     <div id="submitButton">
         <button type="button" disabled="disabled">Create</button>
         <p id="status"></p>
     </div>
-    <button type="button" onclick="goHome()">Back</button>
+</div>
+
 </body>
 </html>
