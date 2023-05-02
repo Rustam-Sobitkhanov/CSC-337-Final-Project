@@ -136,6 +136,10 @@ function goHome() { //all html files in "app" directory
     window.location.href = window.location.origin + "/app/home.html";
 }
 
+function goBack() {
+    window.history.back();
+}
+
 function goToProfile() { //post.html
     window.location.href = window.location.origin + "/app/profile.html";
 }
