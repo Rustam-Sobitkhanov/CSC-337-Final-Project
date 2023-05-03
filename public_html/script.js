@@ -480,7 +480,7 @@ function getChatHistory() { //chat.html
                                     document.getElementById("chatHistory").innerHTML += "<strong class='username'>" + msg[1] + ":</strong>";
                                 }
                                 if (msg[3] != "undefined") {
-                                    document.getElementById("chatHistory").innerHTML += '<br><img src="../../img/chats/' + msg[3] + '" alt="picture" width="60px" height="60px">';
+                                    document.getElementById("chatHistory").innerHTML += '<br><img src="../../img/chats/' + msg[3] + '" alt="picture" width="200px" height="200px">';
                                 }
                                 document.getElementById("chatHistory").innerHTML += "<p>" + msg[2] + "</p>";
                                 lastUser = msg[1];
